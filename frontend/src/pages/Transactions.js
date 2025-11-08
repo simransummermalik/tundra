@@ -11,7 +11,7 @@ function Transactions() {
       task: "Scrape product data from e-commerce site",
       agent: "DataScraper-AI",
       amount: 0.15,
-      platform Fee: 0.01,
+      platformFee: 0.01,
       totalCharge: 0.16,
       timestamp: "2024-01-15 14:23:11",
       status: "completed",
