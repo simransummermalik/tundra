@@ -26,13 +26,13 @@ body {
 
 .login-card {
   width: 100%;
-  max-width: 380px;
+  max-width: 480px;
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 1.25rem;
-  padding: 2.25rem 2rem 1.5rem;
+  border-radius: 1.5rem;
+  padding: 3rem 2.5rem 2rem;
   backdrop-filter: blur(12px);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
 }
 
 .login-header {
@@ -41,21 +41,21 @@ body {
 }
 
 .login-logo {
-  width: 62px;
-  height: 62px;
+  width: 80px;
+  height: 80px;
   object-fit: contain;
   margin-bottom: 0.5rem;
 }
 
 .login-header h1 {
   color: var(--text);
-  font-size: 1.4rem;
+  font-size: 1.8rem;
   margin: 0;
 }
 
 .subtitle {
   color: var(--muted);
-  font-size: 0.7rem;
+  font-size: 0.85rem;
   margin-top: 0.35rem;
 }
 
@@ -75,9 +75,9 @@ body {
   background: rgba(2, 6, 23, 0.25);
   border: 1px solid rgba(137, 207, 240, 0.25);
   border-radius: 0.6rem;
-  padding: 0.55rem 0.6rem;
+  padding: 0.8rem 0.8rem;
   color: var(--text);
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   outline: none;
   transition: border 0.15s ease;
 }
@@ -91,11 +91,12 @@ body {
   background: linear-gradient(135deg, #89cff0 0%, #5da7c4 100%);
   border: none;
   border-radius: 0.7rem;
-  padding: 0.6rem 0.6rem;
+  padding: 0.8rem 0.8rem;
   color: #020617;
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.1s ease;
+  font-size: 0.95rem;
 }
 
 .login-button:active {
