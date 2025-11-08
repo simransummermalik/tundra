@@ -1,0 +1,1 @@
+# RequestContext for metadata about the current task.
