@@ -1,3 +1,7 @@
+from fastapi import FastAPI
+from agent_executor.context import RequestContext
+from agent_executor.event_queue import EventQueue
+from agent_executor.executor import AgentExecutor
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from models import Job, Context, AgentOutput, JobResponse
@@ -6,13 +10,15 @@ import asyncio
 import uuid
 from datetime import datetime
 
+app = FastAPI(title="Tundra Agent Runner")
+
 app = FastAPI(title="TUNDRA Requester Agent")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[""],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=[""],
     allow_headers=["*"],
 )
 
@@ -67,3 +73,18 @@ async def executor():
 @app.on_event("startup")
 async def startup_event():
     asyncio.create_task(executor())
+
+
+@app.post("/execute")
+def run_agent(request: RequestContext):
+    queue = EventQueue()
+    agent = AgentExecutor(name="WebScraperAgent")
+
+    result = agent.execute(request, queue)
+    events = [event.dict() for event in queue.list_events()]
+
+    return {
+        "agent": agent.name,
+        "result": result,
+        "events": events
+    }
