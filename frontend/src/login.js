@@ -24,7 +24,7 @@ const Login = () => {
           password,
         });
         if (error) throw error;
-        setMessage("Signed in successfully ✅");
+        setMessage("Signed in successfully");
         console.log("SESSION:", data.session);
       } else {
         // signup

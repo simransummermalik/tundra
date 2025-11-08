@@ -1,0 +1,256 @@
+.jobs-page {
+  min-height: 100vh;
+  background: var(--light-bg);
+}
+
+.jobs-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 32px;
+  border-bottom: 2px solid var(--border);
+}
+
+.tab {
+  padding: 12px 24px;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--steel-grey);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: -2px;
+}
+
+.tab:hover {
+  color: var(--glacier-blue);
+}
+
+.tab.active {
+  color: var(--glacier-blue);
+  border-bottom-color: var(--glacier-blue);
+}
+
+/* Tab Content */
+.tab-content {
+  margin-top: 24px;
+}
+
+/* New Job Form */
+.new-job-section h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy-blue);
+  margin-bottom: 24px;
+}
+
+.job-form {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 32px;
+  border: 1px solid var(--border);
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--navy-blue);
+  margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: var(--font-main);
+  transition: border-color 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--glacier-blue);
+}
+
+.form-group textarea {
+  resize: vertical;
+  font-family: var(--font-mono);
+  line-height: 1.6;
+}
+
+.form-hint {
+  display: block;
+  font-size: 12px;
+  color: var(--steel-grey);
+  margin-top: 6px;
+}
+
+/* Jobs List */
+.jobs-list {
+  display: grid;
+  gap: 20px;
+}
+
+.job-card {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+}
+
+.job-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.job-card.completed {
+  border-left: 4px solid var(--success);
+}
+
+.job-card.disputed {
+  border-left: 4px solid var(--error);
+}
+
+.job-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.job-id {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--glacier-blue);
+}
+
+.job-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--navy-blue);
+  margin-bottom: 12px;
+}
+
+.job-meta {
+  display: flex;
+  gap: 24px;
+  font-size: 13px;
+  color: var(--steel-grey);
+  margin-bottom: 16px;
+}
+
+.job-output {
+  padding: 12px 16px;
+  background: var(--light-bg);
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 16px;
+  color: var(--navy-blue);
+}
+
+.dispute-reason {
+  padding: 12px 16px;
+  background: #fee2e2;
+  border-left: 3px solid var(--error);
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 16px;
+  color: #991b1b;
+}
+
+.job-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-small {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--navy-blue);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-small:hover {
+  border-color: var(--glacier-blue);
+  color: var(--glacier-blue);
+}
+
+.btn-small.btn-primary {
+  background: var(--glacier-blue);
+  border-color: var(--glacier-blue);
+  color: var(--white);
+}
+
+.btn-small.btn-primary:hover {
+  background: #3b8ce6;
+}
+
+/* Progress Bar */
+.progress-bar {
+  position: relative;
+  height: 24px;
+  background: var(--light-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--glacier-blue), #3b8ce6);
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--navy-blue);
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 60px 24px;
+  color: var(--steel-grey);
+  font-size: 16px;
+}
+
+/* Status-specific colors */
+.status-queued {
+  background: #dbeafe;
+  color: #1e40af;
+}
