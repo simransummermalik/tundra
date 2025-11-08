@@ -1,6 +1,6 @@
 // src/App.js
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+//import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./login";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
