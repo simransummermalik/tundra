@@ -1,17 +1,35 @@
 // src/Login.js
 import React, { useState } from "react";
 import "./login.css";
-import logo from "./assets/logo.png"; // change if your file name is different
+import logo from "./assets/logo.png";
+import { supabase } from "./supabaseClient";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
 
-  // this does nothing right now ... plug Supabase here later
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("login attempt", { email, password });
-    // TODO: supabase.auth.signInWithPassword(...)
+    setError("");
+    setSuccess(false);
+    setLoading(true);
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    setLoading(false);
+
+    if (error) {
+      setError(error.message);
+    } else if (data.session) {
+      setSuccess(true);
+      console.log("Signed in:", data.session);
+    }
   };
 
   return (
@@ -20,13 +38,12 @@ const Login = () => {
         <div className="login-header">
           <img src={logo} alt="TUNDRA" className="login-logo" />
           <h1>TUNDRA</h1>
-          <p className="subtitle">put a subtitle here</p>
+          <p className="subtitle">Where intelligence learns to self-govern.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="login-form">
-          <label htmlFor="email">Email</label>
+          <label>Email</label>
           <input
-            id="email"
             type="email"
             placeholder="you@example.com"
             value={email}
@@ -34,9 +51,8 @@ const Login = () => {
             required
           />
 
-          <label htmlFor="password">Password</label>
+          <label>Password</label>
           <input
-            id="password"
             type="password"
             placeholder="••••••••"
             value={password}
@@ -44,14 +60,17 @@ const Login = () => {
             required
           />
 
-          <button type="submit" className="login-button">
-            Log In
+          <button
+            type="submit"
+            className="login-button"
+            disabled={loading}
+          >
+            {loading ? "Logging in..." : "Log In"}
           </button>
         </form>
 
-        <p className="helper-text">
-          Supabase auth will go here — this is just the UI.
-        </p>
+        {error && <p className="error-message">{error}</p>}
+        {success && <p className="success-message">Login successful ✅</p>}
       </div>
     </div>
   );

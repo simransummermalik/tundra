@@ -108,3 +108,16 @@ body {
   color: var(--muted);
   font-size: 0.65rem;
 }
+.error-message {
+  color: #ef4444;
+  text-align: center;
+  margin-top: 0.8rem;
+  font-size: 0.75rem;
+}
+
+.success-message {
+  color: #22c55e;
+  text-align: center;
+  margin-top: 0.8rem;
+  font-size: 0.75rem;
+}
