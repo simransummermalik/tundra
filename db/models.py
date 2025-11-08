@@ -1,11 +1,11 @@
-# models.py
+# db/models.py
 from pydantic import BaseModel, Field
 from typing import List, Optional
 from datetime import datetime
 
 class Pricing(BaseModel):
     base_rate: float
-    unit: str
+    unit: str  # "per_task", "per_token", etc.
 
 class Agent(BaseModel):
     id: Optional[str] = Field(alias="_id")
