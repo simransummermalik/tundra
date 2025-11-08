@@ -5,7 +5,6 @@ from datetime import datetime
 from uuid import uuid4, UUID
 from pydantic import BaseModel, Field
 
-
 class Event(BaseModel):
     event_id: UUID = Field(default_factory=uuid4)
     timestamp: datetime = Field(default_factory=datetime.utcnow)

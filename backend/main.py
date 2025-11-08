@@ -7,21 +7,13 @@ from models import Job, JobResponse
 from db import jobs_collection
 from dotenv import load_dotenv
 from openai import AzureOpenAI
+from datetime import datetime, timezone
+from contextlib import asynccontextmanager
 import asyncio
 import uuid
 import os
-from datetime import datetime
 
 load_dotenv()
-app = FastAPI(title="TUNDRA Requester Agent")
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],     
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 job_queue = asyncio.Queue()
 
@@ -32,10 +24,11 @@ client = AzureOpenAI(
 )
 
 def tundra_agent(prompt: str):
+    """LLM reasoning for interpreting and routing tasks."""
     system_prompt = (
         "You are TundraAgent, a requester agent on the Tundra A2A marketplace. "
-        "You understand user jobs, decide which specialist agent to hire, "
-        "and summarize reasoning clearly."
+        "You interpret human or system jobs, decide which specialist agent should handle the task, "
+        "and summarize your reasoning clearly and concisely."
     )
 
     response = client.chat.completions.create(
@@ -47,6 +40,22 @@ def tundra_agent(prompt: str):
     )
     return response.choices[0].message.content
 
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    asyncio.create_task(executor())
+    yield
+
+app = FastAPI(title="TUNDRA Requester Agent", lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 @app.get("/")
 async def root():
     return {"message": "TUNDRA Requester Agent running"}
@@ -55,18 +64,19 @@ async def root():
 async def health_check():
     return {"status": "ok"}
 
+
 @app.post("/submit_job")
 async def submit_job(job: Job, user_id: str = "test_user"):
-    """Queue a new job for execution."""
     job.job_id = str(uuid.uuid4())
     job.user_id = user_id
-    job.created_at = datetime.utcnow()
+    job.created_at = datetime.now(timezone.utc)
     job.status = "pending"
 
-    await jobs_collection.insert_one(job.dict())
-    await job_queue.put(job.dict())
+    await jobs_collection.insert_one(job.model_dump())
+    await job_queue.put(job.model_dump())
 
     return JobResponse(job_id=job.job_id, status="queued", message="Job added to queue")
+
 
 async def executor():
     while True:
@@ -74,48 +84,56 @@ async def executor():
         job_id = job["job_id"]
         print(f"Processing job: {job_id}")
 
-        analysis = tundra_agent(f"Task: {job['task']}. Determine the best next action or agent.")
-        print(f"TundraAgent reasoning: {analysis}")
+        reasoning = tundra_agent(
+            f"Task: {job['task']}. Decide which agent should handle it and describe reasoning."
+        )
+        print(f"TundraAgent reasoning: {reasoning}")
 
         if "scrape" in job["task"].lower():
             queue = EventQueue()
             scraper = WebScraperExecutor(name="WebScraperAgent")
             req = RequestContext(task_type="web_scrape", payload={"url": job.get("url", "unknown")})
             result = scraper.execute(req, queue)
-            events = [e.dict() for e in queue.list_events()]
+            events = [e.model_dump() for e in queue.list_events()]
         else:
-            result, events = {"message": "Task did not require scraping"}, []
+            result, events = {"message": "No scraping required."}, []
 
         await jobs_collection.update_one(
             {"job_id": job_id},
             {"$set": {
                 "status": "completed",
-                "reasoning": analysis,
+                "reasoning": reasoning,
                 "output": result,
                 "events": events,
-                "finished_at": datetime.utcnow()
+                "finished_at": datetime.now(timezone.utc)
             }}
         )
+
         print(f"Job {job_id} finalized")
         job_queue.task_done()
 
-@app.on_event("startup")
-async def startup_event():
-    asyncio.create_task(executor())
-
 @app.post("/execute")
-def run_agent(request: RequestContext):
-    """
-    Manual execution endpoint for testing an agent.
-    """
-    queue = EventQueue()
-    agent = WebScraperExecutor(name="WebScraperAgent")
+def tundra_execute(request: RequestContext):
 
-    result = agent.execute(request, queue)
-    events = [event.dict() for event in queue.list_events()]
+    reasoning = tundra_agent(
+        f"Task type: {request.task_type}. Goal: {request.goal}. Payload: {request.payload}. "
+        f"Decide the best next step or agent."
+    )
+
+    queue = EventQueue()
+
+    if "scrape" in request.task_type.lower() or "scrape" in reasoning.lower():
+        agent = WebScraperExecutor(name="WebScraperAgent")
+        result = agent.execute(request, queue)
+    else:
+        agent = AgentExecutor(name="GenericAgent")
+        result = {"message": "No specialized agent required for this task."}
+
+    events = [event.model_dump() for event in queue.list_events()]
 
     return {
-        "agent": agent.name,
+        "tundra_agent_reasoning": reasoning,
+        "selected_agent": agent.name,
         "result": result,
         "events": events
     }
