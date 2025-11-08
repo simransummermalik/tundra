@@ -1,5 +1,4 @@
 from __future__ import annotations
-
 from enum import Enum
 from typing import Any, Dict, Optional, ClassVar
 from uuid import uuid4, UUID
@@ -12,7 +11,6 @@ class TaskState(str, Enum):
     completed = "completed"
     failed = "failed"
 
-
 class RequestContext(BaseModel):
     request_id: UUID = Field(default_factory=uuid4)
     task_type: str
@@ -21,8 +19,8 @@ class RequestContext(BaseModel):
     received_at: datetime = Field(default_factory=datetime.utcnow)
     state: TaskState = TaskState.pending
 
-    agent_name: str = "CloudlyAgent"
-    goal: str = "Analyze competitor pricing"
+    agent_name: str = "TundraAgent"
+    goal: str = "Process assigned task autonomously"
 
     parent_job_id: Optional[str] = None
     correlation_id: Optional[str] = None
