@@ -1,13 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* TUNDRA Brand Colors - Clean & Professional */
+  --navy-blue: #0f172a;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+
+  --accent: #0ea5e9;
+  --accent-hover: #0284c7;
+
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+
+  --border: #e2e8f0;
+  --border-light: #f1f5f9;
+
+  --success: #10b981;
+  --success-bg: #d1fae5;
+  --warning: #f59e0b;
+  --warning-bg: #fef3c7;
+  --error: #ef4444;
+  --error-bg: #fee2e2;
+  --info: #0ea5e9;
+  --info-bg: #dbeafe;
+
+  /* Typography */
+  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', monospace;
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.08);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: var(--font-main);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: var(--font-mono);
+}
+
+/* Utility Classes */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.btn {
+  padding: 0.625rem 1.25rem;
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: var(--font-main);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+}
+
+.btn-secondary {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  background: var(--border);
+}
+
+.btn-small {
+  padding: 0.375rem 0.875rem;
+  font-size: 13px;
+}
+
+.card {
+  background: var(--bg-primary);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.badge-success {
+  background: var(--success-bg);
+  color: #047857;
+}
+
+.badge-warning {
+  background: var(--warning-bg);
+  color: #b45309;
+}
+
+.badge-error {
+  background: var(--error-bg);
+  color: #991b1b;
+}
+
+.badge-info {
+  background: var(--info-bg);
+  color: #0369a1;
+}
+
+/* Page Layout */
+.page-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--spacing-xl) var(--spacing-lg);
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+  letter-spacing: -0.01em;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-xl);
+  font-weight: 400;
 }

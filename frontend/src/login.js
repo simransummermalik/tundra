@@ -1,32 +1,86 @@
-// src/Login.js
 import React, { useState } from "react";
 import "./login.css";
-import logo from "./assets/logo.png"; // change if your file name is different
+import logo from "./assets/logo.png";
+import { supabase } from "./supabaseClient";
 
 const Login = () => {
+  const [mode, setMode] = useState("signin"); // "signin" or "signup"
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
-  // this does nothing right now ... plug Supabase here later
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("login attempt", { email, password });
-    // TODO: supabase.auth.signInWithPassword(...)
+    setError("");
+    setMessage("");
+    setLoading(true);
+
+    try {
+      if (mode === "signin") {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+        if (error) throw error;
+        setMessage("Signed in successfully");
+        console.log("SESSION:", data.session);
+      } else {
+        // signup
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+        });
+        if (error) throw error;
+        setMessage("Account created! Check your email (if confirmation is on).");
+        console.log("SIGNUP:", data);
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="login-page">
+      <div className="overlay" />
       <div className="login-card">
         <div className="login-header">
           <img src={logo} alt="TUNDRA" className="login-logo" />
           <h1>TUNDRA</h1>
-          <p className="subtitle">put a subtitle here</p>
+          <p className="subtitle">
+            Transactional Unified Network for Distributed Recursive Agents
+          </p>
+        </div>
+
+        <div className="toggle-row">
+          <button
+            className={mode === "signin" ? "toggle-btn active" : "toggle-btn"}
+            onClick={() => {
+              setMode("signin");
+              setError("");
+              setMessage("");
+            }}
+          >
+            Sign In
+          </button>
+          <button
+            className={mode === "signup" ? "toggle-btn active" : "toggle-btn"}
+            onClick={() => {
+              setMode("signup");
+              setError("");
+              setMessage("");
+            }}
+          >
+            Sign Up
+          </button>
         </div>
 
         <form onSubmit={handleSubmit} className="login-form">
-          <label htmlFor="email">Email</label>
+          <label>Email</label>
           <input
-            id="email"
             type="email"
             placeholder="you@example.com"
             value={email}
@@ -34,9 +88,8 @@ const Login = () => {
             required
           />
 
-          <label htmlFor="password">Password</label>
+          <label>Password</label>
           <input
-            id="password"
             type="password"
             placeholder="••••••••"
             value={password}
@@ -44,13 +97,24 @@ const Login = () => {
             required
           />
 
-          <button type="submit" className="login-button">
-            Log In
+          <button type="submit" className="login-button" disabled={loading}>
+            {loading
+              ? mode === "signin"
+                ? "Signing in..."
+                : "Creating account..."
+              : mode === "signin"
+              ? "Sign In"
+              : "Sign Up"}
           </button>
         </form>
 
+        {error && <p className="error-message">{error}</p>}
+        {message && <p className="success-message">{message}</p>}
+
         <p className="helper-text">
-          Supabase auth will go here — this is just the UI.
+          {mode === "signin"
+            ? "Don't have an account? Click Sign Up."
+            : "Already have an account? Click Sign In."}
         </p>
       </div>
     </div>
