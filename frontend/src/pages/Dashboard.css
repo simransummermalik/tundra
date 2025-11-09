@@ -65,19 +65,12 @@ body {
 
 .stat-card {
   background: var(--card-bg);
-  border-radius: 14px;
+  border-radius: 0;
   padding: 24px;
   display: flex;
   align-items: center;
   gap: 16px;
   border: 1px solid var(--border);
-  transition: all 0.25s ease;
-}
-
-.stat-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(74, 158, 255, 0.2);
-  border-color: var(--glacier-blue);
 }
 
 .stat-icon {
@@ -88,7 +81,7 @@ body {
   justify-content: center;
   flex-shrink: 0;
   background: var(--glacier-blue);
-  border-radius: 12px;
+  border-radius: 0;
   padding: 8px;
 }
 
@@ -127,15 +120,9 @@ body {
 
 .agent-card {
   background: var(--card-bg);
-  border-radius: 14px;
+  border-radius: 0;
   padding: 20px;
   border: 1px solid var(--border);
-  transition: all 0.25s ease;
-}
-
-.agent-card:hover {
-  border-color: var(--glacier-blue);
-  box-shadow: 0 6px 16px rgba(74, 158, 255, 0.15);
 }
 
 .agent-header {
@@ -158,7 +145,7 @@ body {
 
 .status-badge {
   padding: 4px 12px;
-  border-radius: 14px;
+  border-radius: 0;
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
@@ -200,10 +187,9 @@ body {
 /* Jobs Table */
 .jobs-table {
   background: var(--card-bg);
-  border-radius: 14px;
+  border-radius: 0;
   border: 1px solid var(--border);
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
 table {
@@ -239,9 +225,7 @@ tbody tr:last-child td {
 }
 
 tbody tr:hover {
-  background: #475569; /* darker highlight for dark theme */
-  color: #fff;
-  transition: all 0.2s ease;
+  background: #2d3748;
 }
 
 .job-id { font-weight: 600; color: var(--glacier-blue); }
@@ -257,7 +241,7 @@ tbody tr:hover {
 
 .job-status {
   padding: 6px 14px;
-  border-radius: 16px;
+  border-radius: 0;
   font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
@@ -272,7 +256,7 @@ select, input {
   background: #334155;
   color: var(--white);
   border: 1px solid #475569;
-  border-radius: 6px;
+  border-radius: 0;
   padding: 6px 10px;
 }
 
