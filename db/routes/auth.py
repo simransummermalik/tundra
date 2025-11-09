@@ -10,6 +10,7 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 # In-memory storage for now (replace with database later)
 api_keys = {}  # {api_key_hash: {user_id, email, created_at}}
+user_keys = {}  # {user_id: api_key} - to track which users have keys
 
 
 class SignupRequest(BaseModel):
@@ -34,16 +35,64 @@ def hash_api_key(api_key: str) -> str:
     return hashlib.sha256(api_key.encode()).hexdigest()
 
 
+@router.post("/get-or-create-key", response_model=APIKeyResponse)
+async def get_or_create_key(request: SignupRequest):
+    """
+    Get existing API key or create new one for user
+
+    Call this from your frontend when user logs in:
+    - User logs in with Supabase
+    - Frontend calls this endpoint with user_id
+    - If user has existing key, returns masked version
+    - If new user, generates and returns full key
+    """
+    # Check if user already has a key
+    existing_key = user_keys.get(request.user_id)
+
+    if existing_key:
+        # User already has a key, return masked version
+        masked_key = existing_key[:13] + "•" * 20
+        return APIKeyResponse(
+            api_key=masked_key,
+            message="You already have an API key. Check your Settings page."
+        )
+
+    # Generate new API key for new user
+    api_key = generate_api_key()
+    api_key_hash = hash_api_key(api_key)
+
+    # Store in database (using in-memory for now)
+    api_keys[api_key_hash] = {
+        "user_id": request.user_id,
+        "email": request.email,
+        "created_at": datetime.utcnow().isoformat(),
+        "active": True
+    }
+
+    # Track user's key
+    user_keys[request.user_id] = api_key
+
+    return APIKeyResponse(
+        api_key=api_key,
+        message="API key generated successfully. Save this key - it won't be shown again!"
+    )
+
+
 @router.post("/generate-key", response_model=APIKeyResponse)
 async def generate_key(request: SignupRequest):
     """
-    Generate API key for new user
+    Generate NEW API key for user (even if they have one)
 
-    Call this from your frontend after Supabase signup:
-    - User signs up with Supabase
-    - Frontend calls this endpoint with user_id
-    - Returns API key (show once to user!)
+    This will invalidate the old key and create a new one.
+    Use get-or-create-key for normal login flow.
     """
+    # Revoke old key if exists
+    old_key = user_keys.get(request.user_id)
+    if old_key:
+        old_hash = hash_api_key(old_key)
+        if old_hash in api_keys:
+            api_keys[old_hash]["active"] = False
+
     # Generate new API key
     api_key = generate_api_key()
     api_key_hash = hash_api_key(api_key)
@@ -56,9 +105,12 @@ async def generate_key(request: SignupRequest):
         "active": True
     }
 
+    # Update user's key
+    user_keys[request.user_id] = api_key
+
     return APIKeyResponse(
         api_key=api_key,
-        message="API key generated successfully. Save this key - it won't be shown again!"
+        message="New API key generated. Your old key has been revoked. Save this key - it won't be shown again!"
     )
 
 

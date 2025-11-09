@@ -11,14 +11,45 @@ import Settings from "./pages/Settings";
 import { supabase } from "./supabaseClient";
 import "./App.css";
 
+const BACKEND_URL = "http://localhost:8000";
+
 function App() {
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  // Auto-generate API key for user on login
+  const ensureApiKey = async (user) => {
+    try {
+      const response = await fetch(`${BACKEND_URL}/auth/get-or-create-key`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: user.email,
+          user_id: user.id,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        // Store the API key if it's a new one (not masked)
+        if (!data.api_key.includes("•")) {
+          localStorage.setItem("tundra_api_key", data.api_key);
+        }
+      }
+    } catch (error) {
+      console.error("Failed to ensure API key:", error);
+    }
+  };
 
   useEffect(() => {
     // Check current session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
+      if (session?.user) {
+        ensureApiKey(session.user);
+      }
       setLoading(false);
     });
 
@@ -27,6 +58,9 @@ function App() {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
+      if (session?.user) {
+        ensureApiKey(session.user);
+      }
     });
 
     return () => subscription.unsubscribe();
