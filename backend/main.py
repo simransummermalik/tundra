@@ -24,7 +24,6 @@ client = AzureOpenAI(
 )
 
 def tundra_agent(prompt: str):
-    """LLM reasoning for interpreting and routing tasks."""
     system_prompt = (
         "You are TundraAgent, a requester agent on the Tundra A2A marketplace. "
         "You interpret human or system jobs, decide which specialist agent should handle the task, "
@@ -63,7 +62,6 @@ async def root():
 @app.get("/health")
 async def health_check():
     return {"status": "ok"}
-
 
 @app.post("/submit_job")
 async def submit_job(job: Job, user_id: str = "test_user"):
