@@ -1,7 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./login.css";
 import logo from "./assets/logo.png";
 import { supabase } from "./supabaseClient";
+
+const Snowflakes = () => {
+  const snowflakes = Array.from({ length: 50 }, (_, i) => ({
+    id: i,
+    left: Math.random() * 100,
+    animationDuration: 10 + Math.random() * 20,
+    animationDelay: Math.random() * 10,
+    fontSize: 10 + Math.random() * 20,
+    opacity: 0.3 + Math.random() * 0.7,
+  }));
+
+  return (
+    <div className="snowflakes-container">
+      {snowflakes.map((flake) => (
+        <div
+          key={flake.id}
+          className="snowflake"
+          style={{
+            left: `${flake.left}%`,
+            animationDuration: `${flake.animationDuration}s`,
+            animationDelay: `${flake.animationDelay}s`,
+            width: `${flake.fontSize}px`,
+            height: `${flake.fontSize}px`,
+            opacity: flake.opacity,
+          }}
+        />
+      ))}
+    </div>
+  );
+};
 
 const Login = () => {
   const [mode, setMode] = useState("signin"); // "signin" or "signup"
@@ -45,6 +75,7 @@ const Login = () => {
 
   return (
     <div className="login-page">
+      <Snowflakes />
       <div className="overlay" />
       <div className="login-card">
         <div className="login-header">

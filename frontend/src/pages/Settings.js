@@ -88,33 +88,45 @@ function Settings() {
 
           {!apiKey ? (
             <div>
-              <p>You don't have an API key yet. Generate one to use the CLI.</p>
-              <button
-                className="btn btn-primary"
-                onClick={handleGenerateKey}
-                disabled={loading}
-              >
-                {loading ? "Generating..." : "Generate API Key"}
-              </button>
+              <p>Loading your API key...</p>
             </div>
           ) : (
-            <div className="api-key-box">
-              <code>{showKey ? apiKey : "tundra_sk_••••••••••••••••"}</code>
-              <button
-                className="btn btn-secondary"
-                onClick={() => setShowKey(!showKey)}
-              >
-                {showKey ? "Hide" : "Show"}
-              </button>
-              <button
-                className="btn btn-secondary"
-                onClick={() => {
-                  navigator.clipboard.writeText(apiKey);
-                  alert("API key copied to clipboard!");
-                }}
-              >
-                Copy
-              </button>
+            <div>
+              <div className="api-key-box">
+                <code>{showKey ? apiKey : "tundra_sk_••••••••••••••••"}</code>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => setShowKey(!showKey)}
+                >
+                  {showKey ? "Hide" : "Show"}
+                </button>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => {
+                    navigator.clipboard.writeText(apiKey);
+                    alert("API key copied to clipboard!");
+                  }}
+                >
+                  Copy
+                </button>
+              </div>
+              <p style={{ marginTop: "12px", fontSize: "14px", color: "#64748b" }}>
+                Need a new key?{" "}
+                <button
+                  onClick={handleGenerateKey}
+                  disabled={loading}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "#4a9eff",
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                    padding: 0,
+                  }}
+                >
+                  {loading ? "Regenerating..." : "Regenerate API Key"}
+                </button>
+              </p>
             </div>
           )}
 
