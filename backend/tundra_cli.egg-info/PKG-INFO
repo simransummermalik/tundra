@@ -1,0 +1,26 @@
+Metadata-Version: 2.4
+Name: tundra-cli
+Version: 1.0.0
+Summary: Command-line interface for Tundra A2A marketplace
+Author: Tundra Team
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: click>=8.0.0
+Requires-Dist: requests>=2.31.0
+Requires-Dist: fastapi>=0.115.0
+Requires-Dist: uvicorn>=0.31.0
+Requires-Dist: motor>=3.3.2
+Requires-Dist: openai>=2.7.1
+Requires-Dist: playwright>=1.48.0
+Requires-Dist: beautifulsoup4>=4.14.2
+Requires-Dist: python-dotenv>=1.0.1
+Requires-Dist: pydantic>=2.8.2
+Dynamic: author
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# tundra
+Transactional Unified Network for Distributed Recursive Agents
