@@ -1,19 +1,70 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "../supabaseClient";
 import "./Settings.css";
 
+const BACKEND_URL = "http://localhost:8000"; // Change this when deployed
+
 function Settings() {
-  const [apiKey, setApiKey] = useState("tundra_sk_1234567890abcdef");
+  const [apiKey, setApiKey] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [showKey, setShowKey] = useState(false);
   const [notifications, setNotifications] = useState({
     jobComplete: true,
     jobFailed: true,
     weeklyReport: false,
   });
 
-  const handleRegenerateKey = () => {
-    const newKey = `tundra_sk_${Math.random().toString(36).substring(2, 15)}`;
-    setApiKey(newKey);
-    alert("New API key generated!");
+  useEffect(() => {
+    // Check if user already has an API key (you'd fetch this from your DB)
+    const savedKey = localStorage.getItem("tundra_api_key");
+    if (savedKey) {
+      setApiKey(savedKey);
+    }
+  }, []);
+
+  const handleGenerateKey = async () => {
+    setLoading(true);
+    setError("");
+
+    try {
+      // Get current user from Supabase
+      const { data: { user } } = await supabase.auth.getUser();
+
+      if (!user) {
+        setError("Not authenticated");
+        return;
+      }
+
+      // Call backend to generate API key
+      const response = await fetch(`${BACKEND_URL}/auth/generate-key`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: user.email,
+          user_id: user.id,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to generate API key");
+      }
+
+      const data = await response.json();
+      setApiKey(data.api_key);
+      setShowKey(true);
+
+      // Save to localStorage
+      localStorage.setItem("tundra_api_key", data.api_key);
+
+      alert("API key generated! Make sure to copy it now - it won't be shown again.");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSaveSettings = () => {
@@ -28,18 +79,52 @@ function Settings() {
 
         {/* API Key Section */}
         <div className="settings-section">
-          <h2>API Key</h2>
+          <h2>API Key for CLI</h2>
           <p className="section-description">
-            Use this key to authenticate API requests and CLI access
+            Use this key to authenticate with the TUNDRA CLI
           </p>
-          <div className="api-key-box">
-            <code>{apiKey}</code>
-            <button className="btn btn-secondary" onClick={handleRegenerateKey}>
-              Regenerate
-            </button>
+
+          {error && <p className="error-message">{error}</p>}
+
+          {!apiKey ? (
+            <div>
+              <p>You don't have an API key yet. Generate one to use the CLI.</p>
+              <button
+                className="btn btn-primary"
+                onClick={handleGenerateKey}
+                disabled={loading}
+              >
+                {loading ? "Generating..." : "Generate API Key"}
+              </button>
+            </div>
+          ) : (
+            <div className="api-key-box">
+              <code>{showKey ? apiKey : "tundra_sk_••••••••••••••••"}</code>
+              <button
+                className="btn btn-secondary"
+                onClick={() => setShowKey(!showKey)}
+              >
+                {showKey ? "Hide" : "Show"}
+              </button>
+              <button
+                className="btn btn-secondary"
+                onClick={() => {
+                  navigator.clipboard.writeText(apiKey);
+                  alert("API key copied to clipboard!");
+                }}
+              >
+                Copy
+              </button>
+            </div>
+          )}
+
+          <div className="cli-instructions">
+            <h3>How to use with CLI:</h3>
+            <pre><code>tundra login --api-base {BACKEND_URL} --key {apiKey ? "YOUR_API_KEY" : "your_api_key_here"}</code></pre>
           </div>
+
           <p className="warning-text">
-            Keep your API key secret. Never share it or commit it to version control.
+            ⚠️ Keep your API key secret. Never share it or commit it to version control.
           </p>
         </div>
 

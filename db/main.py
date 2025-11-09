@@ -4,9 +4,9 @@ from fastapi.middleware.cors import CORSMiddleware
 
 # Import without dots when running directly
 try:
-    from .routes import agents, jobs
+    from .routes import agents, jobs, auth
 except ImportError:
-    from routes import agents, jobs
+    from routes import agents, jobs, auth
 
 app = FastAPI(title="TUNDRA Backend")
 
@@ -19,6 +19,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth.router)
 app.include_router(agents.router)
 app.include_router(jobs.router)
 
