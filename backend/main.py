@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from agent_executor.context import RequestContext
 from agent_executor.event_queue import EventQueue
-from agent_executor.executor import AgentExecutor, WebScraperExecutor
+from agent_executor.executor import AgentExecutor, WebScraperExecutor, SummarizerExecutor, SentimentExecutor
 from fastapi.middleware.cors import CORSMiddleware
 from models import Job, JobResponse
 from db import jobs_collection
@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 from contextlib import asynccontextmanager
 import asyncio
 import uuid
+import json
 import os
 
 load_dotenv()
@@ -23,21 +24,46 @@ client = AzureOpenAI(
     api_version="2024-05-01-preview"
 )
 
-def tundra_agent(prompt: str):
+def tundra_agent(user_request: str):
     system_prompt = (
         "You are TundraAgent, a requester agent on the Tundra A2A marketplace. "
-        "You interpret human or system jobs, decide which specialist agent should handle the task, "
-        "and summarize your reasoning clearly and concisely."
+        "You interpret user requests and decide which specialist agent should handle the task. "
+        "Available agents:\n"
+        "- WebScraperAgent: For scraping any web data. Uses AI to intelligently extract data based on user goals.\n"
+        "- SummarizerAgent: For summarizing data or text\n"
+        "- SentimentAgent: For analyzing sentiment of text or news\n\n"
+        "Respond with a JSON object containing:\n"
+        "{\n"
+        '  "agent": "agent_name",\n'
+        '  "task_type": "web_scrape|summarize|sentiment_analysis",\n'
+        '  "reasoning": "brief explanation",\n'
+        '  "payload": {"url": "the exact URL to scrape"}\n'
+        "}\n\n"
+        "URL Selection Guidelines:\n"
+        "- Stock queries: Use https://finance.yahoo.com/quote/SYMBOL (e.g., TSLA, AAPL, GOOGL)\n"
+        "- Claude/Anthropic pricing: Use https://www.anthropic.com/api or https://www.anthropic.com/claude\n"
+        "- News: Use specific news article URLs\n"
+        "- Product info: Use direct product page URLs\n"
+        "- General company info: Use official company websites\n\n"
+        "The WebScraperAgent uses browser automation and AI to extract data from JavaScript-rendered pages."
     )
 
     response = client.chat.completions.create(
         model=os.getenv("AZURE_DEPLOYMENT_NAME"),
         messages=[
             {"role": "system", "content": system_prompt},
-            {"role": "user", "content": prompt}
+            {"role": "user", "content": user_request}
         ]
     )
-    return response.choices[0].message.content
+
+    llm_response = response.choices[0].message.content.strip()
+
+    if llm_response.startswith("```json"):
+        llm_response = llm_response[7:]
+    if llm_response.endswith("```"):
+        llm_response = llm_response[:-3]
+
+    return json.loads(llm_response.strip())
 
 
 @asynccontextmanager
@@ -82,25 +108,41 @@ async def executor():
         job_id = job["job_id"]
         print(f"Processing job: {job_id}")
 
-        reasoning = tundra_agent(
-            f"Task: {job['task']}. Decide which agent should handle it and describe reasoning."
-        )
-        print(f"TundraAgent reasoning: {reasoning}")
+        decision = tundra_agent(job["task"])
+        print(f"TundraAgent decision: {decision}")
 
-        if "scrape" in job["task"].lower():
-            queue = EventQueue()
-            scraper = WebScraperExecutor(name="WebScraperAgent")
-            req = RequestContext(task_type="web_scrape", payload={"url": job.get("url", "unknown")})
-            result = scraper.execute(req, queue)
-            events = [e.model_dump() for e in queue.list_events()]
+        queue = EventQueue()
+        agent_name = decision.get("agent", "WebScraperAgent")
+        task_type = decision.get("task_type", "web_scrape")
+        payload = decision.get("payload", {})
+
+        if "url" in job and job["url"]:
+            payload["url"] = job["url"]
+
+        req = RequestContext(task_type=task_type, payload=payload)
+
+        if agent_name == "WebScraperAgent" or task_type == "web_scrape":
+            agent = WebScraperExecutor(name="WebScraperAgent")
+            result = await agent.execute(req, queue)
+        elif agent_name == "SummarizerAgent" or task_type == "summarize":
+            agent = SummarizerExecutor(name="SummarizerAgent")
+            result = agent.execute(req, queue)
+        elif agent_name == "SentimentAgent" or task_type == "sentiment_analysis":
+            agent = SentimentExecutor(name="SentimentAgent")
+            result = agent.execute(req, queue)
         else:
-            result, events = {"message": "No scraping required."}, []
+            agent = AgentExecutor(name="GenericAgent")
+            result = agent.execute(req, queue)
+
+        events = [e.model_dump() for e in queue.list_events()]
 
         await jobs_collection.update_one(
             {"job_id": job_id},
             {"$set": {
                 "status": "completed",
-                "reasoning": reasoning,
+                "agent_used": agent_name,
+                "task_type": task_type,
+                "reasoning": decision.get("reasoning", ""),
                 "output": result,
                 "events": events,
                 "finished_at": datetime.now(timezone.utc)
@@ -111,27 +153,101 @@ async def executor():
         job_queue.task_done()
 
 @app.post("/execute")
-def tundra_execute(request: RequestContext):
+async def tundra_execute(request: RequestContext):
 
-    reasoning = tundra_agent(
-        f"Task type: {request.task_type}. Goal: {request.goal}. Payload: {request.payload}. "
-        f"Decide the best next step or agent."
-    )
+    user_request = f"Goal: {request.goal}. Task type: {request.task_type}. Payload: {request.payload}"
+    decision = tundra_agent(user_request)
 
     queue = EventQueue()
+    agent_name = decision.get("agent", "WebScraperAgent")
+    task_type = decision.get("task_type", request.task_type)
+    payload = {**request.payload, **decision.get("payload", {})}
 
-    if "scrape" in request.task_type.lower() or "scrape" in reasoning.lower():
+    updated_request = RequestContext(task_type=task_type, payload=payload, goal=request.goal)
+
+    if agent_name == "WebScraperAgent" or task_type == "web_scrape":
         agent = WebScraperExecutor(name="WebScraperAgent")
-        result = agent.execute(request, queue)
+        result = await agent.execute(updated_request, queue)
+    elif agent_name == "SummarizerAgent" or task_type == "summarize":
+        agent = SummarizerExecutor(name="SummarizerAgent")
+        result = agent.execute(updated_request, queue)
+    elif agent_name == "SentimentAgent" or task_type == "sentiment_analysis":
+        agent = SentimentExecutor(name="SentimentAgent")
+        result = agent.execute(updated_request, queue)
     else:
         agent = AgentExecutor(name="GenericAgent")
-        result = {"message": "No specialized agent required for this task."}
+        result = agent.execute(updated_request, queue)
 
     events = [event.model_dump() for event in queue.list_events()]
 
     return {
-        "tundra_agent_reasoning": reasoning,
-        "selected_agent": agent.name,
+        "tundra_agent_decision": decision,
+        "selected_agent": agent_name,
+        "task_type": task_type,
         "result": result,
         "events": events
+    }
+
+@app.post("/orchestrate")
+async def multi_agent_orchestration(user_query: str):
+    decision = tundra_agent(user_query)
+
+    orchestration_log = []
+    final_result = {}
+
+    queue = EventQueue()
+    agent_name = decision.get("agent", "WebScraperAgent")
+    task_type = decision.get("task_type", "web_scrape")
+    payload = decision.get("payload", {})
+
+    if agent_name == "WebScraperAgent" or task_type == "web_scrape":
+        scraper = WebScraperExecutor(name="WebScraperAgent")
+        scrape_request = RequestContext(task_type="web_scrape", payload=payload, goal=user_query)
+        scrape_result = await scraper.execute(scrape_request, queue)
+
+        orchestration_log.append({
+            "step": 1,
+            "agent": "WebScraperAgent",
+            "action": "Scraped web data",
+            "result": scrape_result
+        })
+
+        if "news" in scrape_result:
+            news_text = " ".join([item["headline"] for item in scrape_result.get("news", [])])
+            sentiment_queue = EventQueue()
+            sentiment_agent = SentimentExecutor(name="SentimentAgent")
+            sentiment_request = RequestContext(task_type="sentiment_analysis", payload={"text": news_text})
+            sentiment_result = sentiment_agent.execute(sentiment_request, sentiment_queue)
+
+            orchestration_log.append({
+                "step": 2,
+                "agent": "SentimentAgent",
+                "action": "Analyzed sentiment of news",
+                "result": sentiment_result
+            })
+
+            final_result["sentiment_analysis"] = sentiment_result
+
+        final_result["scrape_data"] = scrape_result
+
+    elif agent_name == "SentimentAgent" or task_type == "sentiment_analysis":
+        sentiment_agent = SentimentExecutor(name="SentimentAgent")
+        sentiment_request = RequestContext(task_type="sentiment_analysis", payload=payload)
+        sentiment_result = sentiment_agent.execute(sentiment_request, queue)
+
+        orchestration_log.append({
+            "step": 1,
+            "agent": "SentimentAgent",
+            "action": "Analyzed sentiment",
+            "result": sentiment_result
+        })
+
+        final_result["sentiment_analysis"] = sentiment_result
+
+    return {
+        "query": user_query,
+        "tundra_decision": decision,
+        "orchestration_log": orchestration_log,
+        "final_result": final_result,
+        "total_agents_used": len(orchestration_log)
     }

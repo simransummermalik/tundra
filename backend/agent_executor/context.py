@@ -25,7 +25,7 @@ class RequestContext(BaseModel):
     parent_job_id: Optional[str] = None
     correlation_id: Optional[str] = None
 
-    ALLOWED_TASK_TYPES: ClassVar[set[str]] = {"web_scrape"}
+    ALLOWED_TASK_TYPES: ClassVar[set[str]] = {"web_scrape", "summarize", "sentiment_analysis"}
 
     def validate_task_type(self) -> None:
         if self.task_type not in self.ALLOWED_TASK_TYPES:
