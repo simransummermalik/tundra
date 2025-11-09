@@ -179,3 +179,10 @@ body {
   align-items: center;
   min-height: 100vh;
 }
+
+.login-logo {
+  width: 180px;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
