@@ -1,8 +1,8 @@
 # db/routes/jobs.py
 from fastapi import APIRouter, HTTPException
 from bson import ObjectId
-from db.database import jobs_collection
-from db.models import Job
+from database import jobs_collection
+from models import Job
 
 router = APIRouter(prefix="/jobs", tags=["Jobs"])
 

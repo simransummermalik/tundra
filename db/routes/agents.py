@@ -1,7 +1,7 @@
 # db/routes/agents.py
 from fastapi import APIRouter, HTTPException
-from db.database import agents_collection
-from db.models import Agent
+from database import agents_collection
+from models import Agent
 from bson import ObjectId
 
 router = APIRouter(prefix="/agents", tags=["Agents"])

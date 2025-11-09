@@ -1,44 +1,218 @@
+:root {
+  --navy-blue: #0f172a;
+  --steel-grey: #94a3b8;
+  --white: #ffffff;
+  --border: #2c3e50;
+  --glacier-blue: #4a9eff;
+  --success: #22c55e;
+  --card-bg: #1e293b;
+  --primary: #4a9eff;
+  --text-light: #cbd5e1;
+}
+
 .marketplace-page {
-  padding: 2rem;
   min-height: 100vh;
-  background-color: #111142;
-  color: #fff;
+  background: var(--navy-blue);
+  padding: 40px 24px;
+  color: #f9f9f9;
 }
 
-.marketplace-page h1 {
-  color: #00bfff;
+.marketplace-container {
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-.agents-grid {
+.page-title {
+  font-size: 42px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #f9f9f9;
+}
+
+.page-subtitle {
+  font-size: 18px;
+  color: var(--text-light);
+  margin-bottom: 40px;
+}
+
+/* Controls */
+.marketplace-controls {
   display: flex;
-  gap: 1.5rem;
   flex-wrap: wrap;
-  margin-top: 2rem;
+  gap: 16px;
+  margin-bottom: 40px;
 }
 
-.agent-card {
-  background-color: #111136;
-  padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 191, 255, 0.2);
-  width: 250px;
+.search-input,
+.filter-select {
+  padding: 10px 12px;
+  border-radius: 0;
+  border: 1px solid var(--border);
+  font-size: 14px;
+  background: var(--card-bg);
+  color: var(--white);
+  flex: 1 1 200px;
 }
 
-.agent-card h2 {
-  color: #00bfff;
+.filter-select {
+  max-width: 200px;
 }
 
-.agent-card button {
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  background-color: #00bfff;
-  color: #0a0a23;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
+.loading-state {
+  text-align: center;
+  color: var(--text-light);
+  margin-top: 40px;
 }
 
-.agent-card button:hover {
-  background-color: #0099cc;
+/* Agents Grid */
+.agents-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
 }
+
+/* Agent Card */
+.marketplace-agent-card {
+  background: var(--card-bg);
+  color: var(--white);
+  border-radius: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid var(--border);
+}
+
+.agent-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.agent-card-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.agent-card-provider {
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+.agent-status-badge {
+  padding: 4px 12px;
+  border-radius: 0;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-active {
+  background: #22c55e33;
+  color: #22c55e;
+}
+
+.status-idle {
+  background: #f9731633;
+  color: #f97316;
+}
+
+.status-disabled {
+  background: #ef444433;
+  color: #ef4444;
+}
+
+/* Description */
+.agent-card-description {
+  font-size: 13px;
+  color: var(--text-light);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+/* Capabilities */
+.agent-capabilities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.capability-tag {
+  background: var(--glacier-blue);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 0;
+}
+
+/* Metrics */
+.agent-card-metrics {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.metric-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.metric-label {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.metric-value-large {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--white);
+}
+
+/* Footer */
+.agent-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.pricing-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.price-label {
+  font-size: 12px;
+  color: var(--text-light);
+}
+
+.price {
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--white);
+}
+
+.price-unit {
+  font-size: 11px;
+  color: var(--steel-grey);
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--steel-grey);
+  margin-top: 40px;
+}
+
+
+

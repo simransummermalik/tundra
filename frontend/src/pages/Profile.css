@@ -1,28 +1,72 @@
-/* need to add further styling for sections and different information fields*/
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Colors */
+  --color-bg: #0f172a; /* main background */
+  --color-bg-light: #f8fafc; /* light cards & sections */
+  --color-text: #e2e8f0; /* main text */
+  --color-text-muted: #94a3b8;
+  --color-primary: #3b82f6; /* accent blue */
+  --color-primary-hover: #60a5fa;
+  --color-success: #22c55e;
+  --color-error: #ef4444;
+  --color-warning: #f59e0b;
+  --color-border: #e2e8f0;
+
+  /* Typography */
+  --font-main: 'Inter', system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: 'Fira Code', monospace;
+
+  /* Border radius */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Shadow */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.15);
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 32px;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-main);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+a {
+  text-decoration: none;
+  color: var(--color-primary);
+}
+button {
+  font-family: var(--font-main);
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+input, select, textarea {
+  font-family: var(--font-main);
+}
 
 .profile-page {
-  padding: 2rem;
   min-height: 100vh;
-  background-color: #0a0a23;
-  color: #fff;
+  background: var(--color-bg);
+  padding: var(--space-lg);
 }
-
-.profile-page h1 {
-  color: #00bfff;
-  margin-bottom: 2rem;
-}
-
 .profile-section {
-  background-color: #111136;
-  padding: 1.5rem;
-  border-radius: 10px;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 0 10px rgba(0, 191, 255, 0.2);
+  background: var(--color-bg-light);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 1px solid var(--color-border);
 }
 
-.profile-section h2 {
-  color: #00bfff;
-  margin-bottom: 0.5rem;
-}
+.info-label { color: var(--color-text-muted); }
+.info-value { color: var(--color-bg); font-weight: 600; }
+.stat-value-small { color: var(--color-primary); }
 
 

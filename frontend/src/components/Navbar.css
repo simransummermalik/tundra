@@ -1,30 +1,116 @@
+:root {
+  --navy-blue: #0f172a;
+  --glacier-blue: #4a9eff;
+  --white: #ffffff;
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #0d0d4a;
-  padding: 1rem 2rem;
-  color: #fff;
+  background: var(--navy-blue);
+  color: white;
+  padding: 0.8rem 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-.logo {
-  font-weight: bold;
-  font-size: 1.5rem;
-}
-
-ul {
+.navbar-left {
   display: flex;
-  gap: 1.5rem;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbar-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.navbar-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.5px;
+}
+
+.navbar-subtitle {
+  font-size: 0.75rem;
+  color: var(--glacier-blue);
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+/* Navbar links */
+.navbar-links {
+  display: flex;
+  gap: clamp(1rem, 2vw, 2.5rem);
   list-style: none;
   margin: 0;
+  padding: 0;
 }
 
-a {
-  color: #fff;
+.navbar-links a {
+  color: var(--white);
   text-decoration: none;
   font-weight: 500;
+  transition: color 0.2s ease;
 }
 
-a:hover {
-  color: #6cb9d3;
+.navbar-links a:hover,
+.navbar-links a.active {
+  color: var(--glacier-blue);
 }
+
+/* Right-side user section */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-email {
+  font-size: 0.9rem;
+  color: var(--glacier-blue);
+}
+
+.btn-logout {
+  background: var(--glacier-blue);
+  color: var(--navy-blue);
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-logout:hover {
+  background: white;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .navbar-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+
+  .navbar-right {
+    margin-top: 0.5rem;
+  }
+}
+
+
+
+
+
