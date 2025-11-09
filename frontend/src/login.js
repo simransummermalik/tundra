@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import BinaryRain from "./BinaryRain";
 import "./login.css";
-import logo from "./assets/logo.png"; 
+import logo from "./assets/logo.png";
+import videoBackground from "./assets/tundralogin.mp4";
 import { supabase } from "./supabaseClient";
 
 const Login = () => {
@@ -46,7 +46,15 @@ const Login = () => {
 
   return (
     <div className="login-page">
-      <BinaryRain />
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="video-background"
+      >
+        <source src={videoBackground} type="video/mp4" />
+      </video>
       <div className="login-card">
         <div className="login-header">
           <img src={logo} alt="TUNDRA" className="login-logo" />

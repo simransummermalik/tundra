@@ -160,15 +160,15 @@ body {
   font-size: 0.75rem;
 }
 
-.binary-canvas {
+.video-background {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 0;
   width: 100vw;
   height: 100vh;
-  pointer-events: none; 
-  background: #000; 
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
 }
 
 .login-page {
