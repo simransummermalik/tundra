@@ -31,18 +31,24 @@ body {
   padding: 40px 24px;
 }
 
-/* Titles */
+/* Welcome Section */
+.welcome-section {
+  margin-bottom: 40px;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--border);
+}
+
 .page-title {
-  font-size: 36px;
+  font-size: 42px;
   font-weight: 700;
   color: #f9f9f9;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .page-subtitle {
-  font-size: 16px;
+  font-size: 18px;
   color: var(--text-light);
-  margin-bottom: 40px;
+  font-weight: 400;
 }
 
 /* Section Titles */
@@ -58,9 +64,9 @@ body {
 /* Stats Grid */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  margin-bottom: 50px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 60px;
 }
 
 .stat-card {
@@ -113,9 +119,9 @@ body {
 /* Agent Feed */
 .agent-feed {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-  margin-bottom: 40px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+  margin-bottom: 60px;
 }
 
 .agent-card {

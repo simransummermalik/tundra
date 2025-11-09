@@ -6,53 +6,18 @@ import MonthlySpendIcon from "../images/coin-icon.svg";
 import JobsCompletedIcon from "../images/checkbox-icon.svg";
 import SuccessRateIcon from "../images/up-arrow-icon.svg";
 
+const BACKEND_URL = "http://localhost:8000";
+
 function Dashboard() {
-  // Placeholder data - replace with API calls later
   const [stats, setStats] = useState({
-    activeJobs: { running: 2, queued: 3, failed: 1 },
-    monthlySpend: 1247.50,
-    jobsCompleted: 342,
-    avgSuccessRate: 87,
+    activeJobs: { running: 0, queued: 0, failed: 0 },
+    monthlySpend: 0,
+    jobsCompleted: 0,
+    avgSuccessRate: 0,
   });
 
-  const [agents, setAgents] = useState([
-    {
-      id: 1,
-      name: "DataScraper-AI",
-      specialization: "Web Scraping",
-      status: "active",
-      speed: "2.3s",
-      successRate: 94,
-      costPerJob: 0.15,
-    },
-    {
-      id: 2,
-      name: "SummarizeGPT",
-      specialization: "Text Summarization",
-      status: "active",
-      speed: "1.8s",
-      successRate: 91,
-      costPerJob: 0.08,
-    },
-    {
-      id: 3,
-      name: "ValidatorPro",
-      specialization: "Data Validation",
-      status: "idle",
-      speed: "3.1s",
-      successRate: 89,
-      costPerJob: 0.12,
-    },
-    {
-      id: 4,
-      name: "CodeReview-AI",
-      specialization: "Code Analysis",
-      status: "idle",
-      speed: "4.5s",
-      successRate: 85,
-      costPerJob: 0.22,
-    },
-  ]);
+  const [agents, setAgents] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const [recentJobs, setRecentJobs] = useState([
     {
@@ -84,8 +49,11 @@ function Dashboard() {
   return (
     <div className="dashboard">
       <div className="dashboard-container">
-        <h1 className="page-title">Dashboard</h1>
-        <p className="page-subtitle">Monitor your AI agent activity and performance</p>
+        {/* Welcome Section */}
+        <div className="welcome-section">
+          <h1 className="page-title">Welcome to TUNDRA</h1>
+          <p className="page-subtitle">Your AI agent marketplace</p>
+        </div>
 
         {/* Summary Cards */}
         <div className="stats-grid">
@@ -127,38 +95,46 @@ function Dashboard() {
           </div>
         </div>
 
-        {/* Live Agent Feed */}
+        {/* Autonomous Agents */}
         <div className="section">
-          <h2 className="section-title">Live Agent Feed</h2>
-          <div className="agent-feed">
-            {agents.map((agent) => (
-              <div key={agent.id} className="agent-card">
-                <div className="agent-header">
-                  <div>
-                    <h3 className="agent-name">{agent.name}</h3>
-                    <p className="agent-spec">{agent.specialization}</p>
+          <h2 className="section-title">Autonomous Agents</h2>
+          {loading ? (
+            <p style={{ color: "var(--text-light)" }}>Loading agents...</p>
+          ) : agents.length === 0 ? (
+            <p style={{ color: "var(--text-light)" }}>No agents available</p>
+          ) : (
+            <div className="agent-feed">
+              {agents.slice(0, 6).map((agent) => (
+                <div key={agent._id || agent.id} className="agent-card">
+                  <div className="agent-header">
+                    <div>
+                      <h3 className="agent-name">{agent.name}</h3>
+                      <p className="agent-spec">
+                        {agent.capabilities?.join(", ") || agent.specialization || "General AI"}
+                      </p>
+                    </div>
+                    <span className={`status-badge status-${agent.status}`}>
+                      {agent.status}
+                    </span>
                   </div>
-                  <span className={`status-badge status-${agent.status}`}>
-                    {agent.status}
-                  </span>
+                  <div className="agent-metrics">
+                    <div className="metric">
+                      <span className="metric-label">Success Rate</span>
+                      <span className="metric-value">
+                        {agent.success_rate || agent.successRate || 0}%
+                      </span>
+                    </div>
+                    <div className="metric">
+                      <span className="metric-label">Price</span>
+                      <span className="metric-value">
+                        ${agent.pricing?.base_rate || agent.costPerJob || 0}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                <div className="agent-metrics">
-                  <div className="metric">
-                    <span className="metric-label">Speed</span>
-                    <span className="metric-value">{agent.speed}</span>
-                  </div>
-                  <div className="metric">
-                    <span className="metric-label">Success Rate</span>
-                    <span className="metric-value">{agent.successRate}%</span>
-                  </div>
-                  <div className="metric">
-                    <span className="metric-label">Cost/Job</span>
-                    <span className="metric-value">${agent.costPerJob}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Recent Jobs */}

@@ -2,16 +2,17 @@
   --navy-blue: #0f172a;
   --steel-grey: #94a3b8;
   --white: #ffffff;
-  --border: #cbd5e1;
+  --border: #2c3e50;
   --glacier-blue: #4a9eff;
   --success: #22c55e;
-  --light-bg: #1e293b;
+  --card-bg: #1e293b;
   --primary: #4a9eff;
+  --text-light: #cbd5e1;
 }
 
 .marketplace-page {
   min-height: 100vh;
-  background: var(--light-bg);
+  background: var(--navy-blue);
   padding: 40px 24px;
   color: #f9f9f9;
 }
@@ -22,16 +23,16 @@
 }
 
 .page-title {
-  font-size: 32px;
+  font-size: 42px;
   font-weight: 700;
   margin-bottom: 8px;
   color: #f9f9f9;
 }
 
 .page-subtitle {
-  font-size: 16px;
-  color: #cbd5e1;
-  margin-bottom: 32px;
+  font-size: 18px;
+  color: var(--text-light);
+  margin-bottom: 40px;
 }
 
 /* Controls */
@@ -39,16 +40,17 @@
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  margin-bottom: 32px;
+  margin-bottom: 40px;
 }
 
 .search-input,
 .filter-select {
   padding: 10px 12px;
-  border-radius: 8px;
+  border-radius: 0;
   border: 1px solid var(--border);
   font-size: 14px;
-  color: var(--navy-blue);
+  background: var(--card-bg);
+  color: var(--white);
   flex: 1 1 200px;
 }
 
@@ -56,29 +58,29 @@
   max-width: 200px;
 }
 
+.loading-state {
+  text-align: center;
+  color: var(--text-light);
+  margin-top: 40px;
+}
+
 /* Agents Grid */
 .agents-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
 }
 
 /* Agent Card */
 .marketplace-agent-card {
-  background: var(--white);
-  color: var(--navy-blue);
-  border-radius: 12px;
+  background: var(--card-bg);
+  color: var(--white);
+  border-radius: 0;
   padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   border: 1px solid var(--border);
-  transition: all 0.2s ease;
-}
-
-.marketplace-agent-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(74, 158, 255, 0.15);
 }
 
 .agent-card-header {
@@ -91,58 +93,51 @@
 .agent-card-name {
   font-size: 16px;
   font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.verified-badge {
-  background: var(--success);
-  color: #fff;
-  font-size: 10px;
-  font-weight: 600;
-  padding: 2px 6px;
-  border-radius: 6px;
+  color: var(--white);
 }
 
 .agent-card-provider {
-  font-size: 12px;
-  color: var(--steel-grey);
+  font-size: 13px;
+  color: var(--text-light);
 }
 
 .agent-status-badge {
-  padding: 4px 10px;
-  border-radius: 12px;
+  padding: 4px 12px;
+  border-radius: 0;
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
-  text-align: center;
 }
 
 .status-active {
-  background: #d1fae5;
-  color: #065f46;
+  background: #22c55e33;
+  color: #22c55e;
 }
 
 .status-idle {
-  background: #fed7aa;
-  color: #92400e;
+  background: #f9731633;
+  color: #f97316;
+}
+
+.status-disabled {
+  background: #ef444433;
+  color: #ef4444;
 }
 
 /* Description */
 .agent-card-description {
   font-size: 13px;
-  color: var(--navy-blue);
-  margin-bottom: 12px;
-  line-height: 1.4;
+  color: var(--text-light);
+  margin-bottom: 16px;
+  line-height: 1.5;
 }
 
 /* Capabilities */
 .agent-capabilities {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 12px;
+  gap: 8px;
+  margin-bottom: 16px;
 }
 
 .capability-tag {
@@ -151,15 +146,15 @@
   font-size: 11px;
   font-weight: 600;
   padding: 4px 8px;
-  border-radius: 8px;
+  border-radius: 0;
 }
 
 /* Metrics */
 .agent-card-metrics {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
 }
 
 .metric-item {
@@ -169,16 +164,16 @@
 }
 
 .metric-label {
-  font-size: 10px;
-  color: var(--steel-grey);
-  margin-bottom: 4px;
+  font-size: 12px;
+  color: var(--text-light);
+  margin-bottom: 6px;
   text-transform: uppercase;
 }
 
 .metric-value-large {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
-  color: var(--navy-blue);
+  color: var(--white);
 }
 
 /* Footer */
@@ -187,37 +182,30 @@
   justify-content: space-between;
   align-items: center;
   margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
 }
 
-.pricing {
+.pricing-info {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  align-items: center;
+  gap: 8px;
+}
+
+.price-label {
+  font-size: 12px;
+  color: var(--text-light);
 }
 
 .price {
   font-weight: 700;
-  font-size: 16px;
+  font-size: 18px;
+  color: var(--white);
 }
 
 .price-unit {
-  font-size: 10px;
+  font-size: 11px;
   color: var(--steel-grey);
-}
-
-.btn-primary {
-  background: var(--primary);
-  color: #fff;
-  font-weight: 600;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-primary:hover {
-  background: #3577d0;
 }
 
 .empty-state {
