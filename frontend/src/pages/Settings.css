@@ -26,11 +26,10 @@
 .settings-container h1 {
   font-size: 32px;
   font-weight: 700;
-  color: var(--white);
+  color: var(--glacier-blue);
   margin-bottom: 16px;
 }
 
-/* Sections */
 .settings-section {
   background: var(--white);
   border-radius: 14px;
@@ -49,11 +48,10 @@
 
 .section-description {
   font-size: 14px;
-  color: var(--steel-grey);
+  color: #141d6d;
   margin-bottom: 24px;
 }
 
-/* API Key Box */
 .api-key-box {
   display: flex;
   align-items: center;
@@ -82,7 +80,6 @@
   gap: 8px;
 }
 
-/* Notifications */
 .notification-options {
   display: flex;
   flex-direction: column;
@@ -105,7 +102,6 @@
   accent-color: var(--glacier-blue);
 }
 
-/* Form Groups */
 .form-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -121,6 +117,7 @@
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 8px;
+  color: var(--navy-blue);
 }
 
 .form-group input,
@@ -132,6 +129,17 @@
   font-size: 14px;
   font-family: var(--font-main);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background: var(--white);
+  color: var(--navy-blue);
+}
+
+.form-group select {
+  appearance: none;
+}
+
+.form-group select option {
+  color: var(--navy-blue);
+  background: var(--white);
 }
 
 .form-group input:focus,
@@ -139,9 +147,16 @@
   outline: none;
   border-color: var(--glacier-blue);
   box-shadow: 0 0 0 2px rgba(74, 158, 255, 0.2);
+  background: var(--white);
+  color: var(--navy-blue);
 }
 
-/* Actions */
+.form-hint {
+  font-size: 0.75rem;
+  color: var(--steel-grey);
+  margin-top: 4px;
+}
+
 .settings-actions {
   display: flex;
   justify-content: flex-end;
@@ -169,7 +184,6 @@
 }
 
 .settings-actions .btn-secondary {
-  background: #f0f4f8;
   color: var(--navy-blue);
   border: 1px solid var(--border);
 }
@@ -178,7 +192,6 @@
   background: #e1e8f0;
 }
 
-/* Responsive tweaks */
 @media (max-width: 768px) {
   .form-row {
     grid-template-columns: 1fr;
@@ -189,5 +202,7 @@
     align-items: stretch;
   }
 }
+
+
 
 
