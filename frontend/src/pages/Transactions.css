@@ -1,0 +1,77 @@
+.transactions-page {
+  width: 100%;
+  padding: 2rem;
+}
+
+.transactions-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.transactions-table {
+  background: var(--card-background, #1e1e1e);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 2rem;
+}
+
+.transactions-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.transactions-table th,
+.transactions-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color, #333);
+}
+
+.transactions-table th {
+  background: var(--header-background, #2a2a2a);
+  font-weight: 600;
+  color: var(--text-light, #888);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.txn-type {
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.txn-type.credit {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+}
+
+.txn-type.debit {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.positive {
+  color: #22c55e;
+  font-weight: 600;
+}
+
+.negative {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.job-id {
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: var(--text-light, #888);
+}
+
+.loading-state,
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-light, #888);
+  font-size: 1rem;
+}

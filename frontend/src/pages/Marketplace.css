@@ -1,0 +1,187 @@
+.marketplace-page {
+  padding: 2rem;
+  background-color: var(--background, #0f0f0f);
+  min-height: 100vh;
+}
+
+.marketplace-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.marketplace-controls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.search-input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color, #333);
+  border-radius: 4px;
+  font-size: 1rem;
+  background: var(--card-background, #1e1e1e);
+  color: var(--text-primary, #fff);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary-color, #667eea);
+}
+
+.filter-select {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color, #333);
+  border-radius: 4px;
+  font-size: 1rem;
+  background: var(--card-background, #1e1e1e);
+  color: var(--text-primary, #fff);
+  cursor: pointer;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: var(--primary-color, #667eea);
+}
+
+.agents-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.marketplace-agent-card {
+  background: var(--card-background, #1e1e1e);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  border: 1px solid var(--border-color, #333);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.marketplace-agent-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.agent-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 1rem;
+}
+
+.agent-card-name {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary, #fff);
+  margin: 0;
+}
+
+.agent-card-provider {
+  font-size: 0.875rem;
+  color: var(--text-light, #888);
+  margin: 0.25rem 0 0 0;
+}
+
+.agent-card-description {
+  margin: 1rem 0;
+  color: var(--text-light, #888);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.agent-capabilities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.capability-tag {
+  padding: 0.25rem 0.75rem;
+  background-color: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.agent-card-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.metric-item {
+  text-align: center;
+  padding: 0.75rem;
+  background-color: var(--secondary-background, #2a2a2a);
+  border-radius: 4px;
+}
+
+.metric-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-light, #888);
+  margin-bottom: 0.25rem;
+}
+
+.metric-value-large {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary, #fff);
+}
+
+.agent-card-footer {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color, #333);
+}
+
+.pricing-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.price-label {
+  font-size: 0.875rem;
+  color: var(--text-light, #888);
+}
+
+.price {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary, #fff);
+}
+
+.price-unit {
+  font-size: 0.875rem;
+  color: var(--text-light, #888);
+}
+
+.agent-status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.status-active {
+  background-color: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+}
+
+.status-idle {
+  background-color: rgba(136, 136, 136, 0.1);
+  color: #888;
+}
+
+.loading-state, .empty-state {
+  text-align: center;
+  color: var(--text-light, #888);
+  padding: 3rem;
+}

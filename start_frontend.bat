@@ -1,0 +1,9 @@
+@echo off
+echo Starting TUNDRA Frontend...
+cd frontend
+if not exist node_modules (
+    echo Installing dependencies...
+    npm install
+)
+echo Starting React development server...
+npm start

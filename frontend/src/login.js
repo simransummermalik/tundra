@@ -1,26 +1,35 @@
-// src/Login.js
 import React, { useState } from "react";
 import "./login.css";
-import logo from "./assets/logo.png"; // change if your file name is different
+import { supabase } from "./supabaseClient";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  // this does nothing right now ... plug Supabase here later
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("login attempt", { email, password });
-    // TODO: supabase.auth.signInWithPassword(...)
+    setLoading(true);
+    setError(null);
+
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (signInError) {
+      setError(signInError.message);
+      setLoading(false);
+    }
   };
 
   return (
     <div className="login-page">
       <div className="login-card">
         <div className="login-header">
-          <img src={logo} alt="TUNDRA" className="login-logo" />
           <h1>TUNDRA</h1>
-          <p className="subtitle">put a subtitle here</p>
+          <p className="subtitle">AI Agent Marketplace</p>
         </div>
 
         <form onSubmit={handleSubmit} className="login-form">
@@ -32,26 +41,26 @@ const Login = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            disabled={loading}
           />
 
           <label htmlFor="password">Password</label>
           <input
             id="password"
             type="password"
-            placeholder="••••••••"
+            placeholder="Enter password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            disabled={loading}
           />
 
-          <button type="submit" className="login-button">
-            Log In
+          {error && <p className="error-message">{error}</p>}
+
+          <button type="submit" className="login-button" disabled={loading}>
+            {loading ? "Logging in..." : "Log In"}
           </button>
         </form>
-
-        <p className="helper-text">
-          Supabase auth will go here — this is just the UI.
-        </p>
       </div>
     </div>
   );
