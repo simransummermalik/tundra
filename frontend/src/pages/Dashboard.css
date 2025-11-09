@@ -1,6 +1,17 @@
+:root {
+  --navy-blue: #0f172a;
+  --steel-grey: #94a3b8;
+  --white: #ffffff;
+  --border: #cbd5e1;
+  --glacier-blue: #4a9eff;
+  --success: #22c55e;
+  --light-bg: #1e293b;
+}
+
 .dashboard {
   min-height: 100vh;
-  background: var(--light-bg);
+  background: var(--navy-blue);
+  color: #f9f9f9; /* default text color for dark background */
 }
 
 .dashboard-container {
@@ -12,13 +23,13 @@
 .page-title {
   font-size: 32px;
   font-weight: 700;
-  color: var(--navy-blue);
+  color: #f9f9f9;
   margin-bottom: 8px;
 }
 
 .page-subtitle {
   font-size: 16px;
-  color: var(--steel-grey);
+  color: #cbd5e1;
   margin-bottom: 32px;
 }
 
@@ -97,7 +108,7 @@
 .section-title {
   font-size: 24px;
   font-weight: 700;
-  color: var(--navy-blue);
+  color: #f9f9f9;
   margin-bottom: 20px;
 }
 
@@ -209,7 +220,7 @@ table {
 
 thead {
   background: var(--navy-blue);
-  color: var(--white);
+  color: #f9f9f9;
 }
 
 th {
@@ -225,6 +236,7 @@ td {
   padding: 16px 20px;
   font-size: 14px;
   border-bottom: 1px solid var(--border);
+  color: #0f172a; /* dark text on white table rows */
 }
 
 tbody tr:last-child td {
@@ -232,7 +244,7 @@ tbody tr:last-child td {
 }
 
 tbody tr:hover {
-  background: #f9fafb;
+  background: #e2e8f0;
 }
 
 .job-id {
@@ -259,3 +271,18 @@ tbody tr:hover {
   background: #d1fae5;
   color: #065f46;
 }
+
+/* Dropdowns */
+select, input {
+  background: #fff;
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 6px 8px;
+}
+
+select option {
+  color: #0f172a;
+  background: #fff;
+}
+

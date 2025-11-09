@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import BinaryRain from "./BinaryRain";
 import "./login.css";
 import logo from "./assets/logo.png"; 
 import { supabase } from "./supabaseClient";
@@ -45,6 +46,7 @@ const Login = () => {
 
   return (
     <div className="login-page">
+      <BinaryRain />
       <div className="login-card">
         <div className="login-header">
           <img src={logo} alt="TUNDRA" className="login-logo" />

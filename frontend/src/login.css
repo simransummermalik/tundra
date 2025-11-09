@@ -26,13 +26,14 @@ body {
 
 .login-card {
   width: 100%;
-  max-width: 380px;
+  max-width: 480px;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 1.25rem;
-  padding: 2.25rem 2rem 1.5rem;
+  padding: 3rem 2.5rem 2rem;
   backdrop-filter: blur(12px);
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+  transform: scale(1.05);
 }
 
 .login-header {
@@ -75,9 +76,9 @@ body {
   background: rgba(2, 6, 23, 0.25);
   border: 1px solid rgba(137, 207, 240, 0.25);
   border-radius: 0.6rem;
-  padding: 0.55rem 0.6rem;
+  padding: 0.7rem 0.8rem;
   color: var(--text);
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   outline: none;
   transition: border 0.15s ease;
 }
@@ -91,11 +92,12 @@ body {
   background: linear-gradient(135deg, #89cff0 0%, #5da7c4 100%);
   border: none;
   border-radius: 0.7rem;
-  padding: 0.6rem 0.6rem;
+  padding: 0.75rem 0.8rem;
   color: #020617;
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.1s ease;
+  font-size: 0.9rem;
 }
 
 .login-button:active {
@@ -156,4 +158,24 @@ body {
   text-align: center;
   margin-top: 0.8rem;
   font-size: 0.75rem;
+}
+
+.binary-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none; 
+  background: #000; 
+}
+
+.login-page {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
