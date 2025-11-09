@@ -9,6 +9,7 @@ import os
 import json
 import re
 from concurrent.futures import ThreadPoolExecutor
+import sys
 
 
 class AgentExecutor:
@@ -34,6 +35,8 @@ class WebScraperExecutor(AgentExecutor):
         self.executor = ThreadPoolExecutor(max_workers=3)
 
     def _scrape_page_sync(self, url: str):
+        if sys.platform.startswith("win"):
+            asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=True)
             context = browser.new_context(
@@ -41,9 +44,13 @@ class WebScraperExecutor(AgentExecutor):
                 viewport={"width": 1920, "height": 1080}
             )
             page = context.new_page()
+            page.set_default_navigation_timeout(60000)
+            page.set_default_timeout(60000)
 
-            page.goto(url, wait_until="networkidle", timeout=30000)
-            page.wait_for_timeout(2000)
+            page.goto(url, wait_until="domcontentloaded")
+            page.wait_for_load_state("load")
+            page.wait_for_selector("body", state="attached", timeout=10000)
+            page.wait_for_timeout(1500)
 
             content = page.content()
             browser.close()
@@ -51,7 +58,7 @@ class WebScraperExecutor(AgentExecutor):
             return BeautifulSoup(content, "html.parser")
 
     async def scrape_page(self, url: str):
-        loop = asyncio.get_event_loop()
+        loop = asyncio.get_running_loop()
         return await loop.run_in_executor(self.executor, self._scrape_page_sync, url)
 
     def clean_text(self, soup: BeautifulSoup):
@@ -107,21 +114,12 @@ class WebScraperExecutor(AgentExecutor):
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt}
             ],
-            temperature=0.1,
-            max_tokens=1000
+            temperature=0,
+            max_tokens=1000,
+            response_format={"type": "json_object"}
         )
-
-        llm_response = response.choices[0].message.content.strip()
-
-        if llm_response.startswith("```json"):
-            llm_response = llm_response[7:]
-        if llm_response.startswith("```"):
-            llm_response = llm_response[3:]
-        if llm_response.endswith("```"):
-            llm_response = llm_response[:-3]
-
-        extracted_data = json.loads(llm_response.strip())
-        return extracted_data
+        content = response.choices[0].message.content
+        return json.loads(content)
 
     async def execute(self, request: RequestContext, queue: EventQueue):
         url = request.payload.get("url", "unknown")

@@ -10,11 +10,18 @@ from openai import AzureOpenAI
 from datetime import datetime, timezone
 from contextlib import asynccontextmanager
 import asyncio
+import sys
 import uuid
 import json
 import os
 
 load_dotenv()
+
+# On Windows, Playwright needs a Proactor event loop to spawn subprocesses.
+# Uvicorn/Starlette may default to the Selector policy on Windows which breaks this.
+# Set the Proactor policy early at import time to ensure Playwright works.
+if sys.platform.startswith("win"):
+    asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
 
 job_queue = asyncio.Queue()
 
@@ -53,17 +60,13 @@ def tundra_agent(user_request: str):
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_request}
-        ]
+        ],
+        temperature=0,
+        response_format={"type": "json_object"}
     )
 
-    llm_response = response.choices[0].message.content.strip()
-
-    if llm_response.startswith("```json"):
-        llm_response = llm_response[7:]
-    if llm_response.endswith("```"):
-        llm_response = llm_response[:-3]
-
-    return json.loads(llm_response.strip())
+    content = response.choices[0].message.content
+    return json.loads(content)
 
 
 @asynccontextmanager
