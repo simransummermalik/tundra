@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./login.css";
 import logo from "./assets/logo.png";
-import videoBackground from "./assets/tundralogin.mp4";
 import { supabase } from "./supabaseClient";
 
 const Login = () => {
@@ -46,20 +45,14 @@ const Login = () => {
 
   return (
     <div className="login-page">
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="video-background"
-      >
-        <source src={videoBackground} type="video/mp4" />
-      </video>
+      <div className="overlay" />
       <div className="login-card">
         <div className="login-header">
           <img src={logo} alt="TUNDRA" className="login-logo" />
           <h1>TUNDRA</h1>
-          <p className="subtitle">Transactional Unified Network for Distributed Recursive Agents</p>
+          <p className="subtitle">
+            Transactional Unified Network for Distributed Recursive Agents
+          </p>
         </div>
 
         <div className="toggle-row">

@@ -1,190 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Colors */
+  --color-bg: #0f172a; /* main background */
+  --color-bg-light: #f8fafc; /* light cards & sections */
+  --color-text: #e2e8f0; /* main text */
+  --color-text-muted: #94a3b8;
+  --color-primary: #3b82f6; /* accent blue */
+  --color-primary-hover: #60a5fa;
+  --color-success: #22c55e;
+  --color-error: #ef4444;
+  --color-warning: #f59e0b;
+  --color-border: #e2e8f0;
+
+  /* Typography */
+  --font-main: 'Inter', system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: 'Fira Code', monospace;
+
+  /* Border radius */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Shadow */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.15);
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 32px;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-main);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+a {
+  text-decoration: none;
+  color: var(--color-primary);
+}
+button {
+  font-family: var(--font-main);
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+input, select, textarea {
+  font-family: var(--font-main);
+}
+
 .profile-page {
   min-height: 100vh;
-  background: var(--light-bg);
+  background: var(--color-bg);
+  padding: var(--space-lg);
 }
-
-.profile-container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 40px 24px;
-}
-
 .profile-section {
-  background: var(--white);
-  border-radius: 12px;
-  padding: 32px;
-  margin-bottom: 24px;
-  border: 1px solid var(--border);
+  background: var(--color-bg-light);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 1px solid var(--color-border);
 }
 
-.profile-section h2 {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--navy-blue);
-  margin-bottom: 24px;
-}
-
-/* Account Info */
-.profile-info {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.info-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.info-row:last-child {
-  border-bottom: none;
-}
-
-.info-label {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--steel-grey);
-}
-
-.info-value {
-  font-size: 15px;
-  color: var(--navy-blue);
-  font-weight: 500;
-}
-
-.info-value.code {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--glacier-blue);
-}
-
-/* Stats Grid */
-.stats-grid-small {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
-}
-
-.stat-card-small {
-  background: var(--light-bg);
-  border-radius: 8px;
-  padding: 20px;
-  text-align: center;
-}
-
-.stat-label-small {
-  font-size: 13px;
-  color: var(--steel-grey);
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.stat-value-small {
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--navy-blue);
-}
-
-/* Active Jobs */
-.active-jobs-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.active-job-item {
-  padding: 16px;
-  background: var(--light-bg);
-  border-radius: 8px;
-  border: 1px solid var(--border);
-}
-
-.job-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.job-task {
-  font-size: 14px;
-  color: var(--navy-blue);
-  margin-bottom: 12px;
-}
-
-.progress-bar-small {
-  height: 6px;
-  background: var(--border);
-  border-radius: 3px;
-  overflow: hidden;
-}
-
-.progress-fill-small {
-  height: 100%;
-  background: var(--glacier-blue);
-  transition: width 0.3s ease;
-}
-
-.empty-message {
-  text-align: center;
-  color: var(--steel-grey);
-  padding: 24px;
-}
-
-/* Activity List */
-.activity-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.activity-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-}
-
-.activity-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  flex-shrink: 0;
-}
-
-.activity-icon.success {
-  background: #d1fae5;
-  color: #065f46;
-}
-
-.activity-icon.processing {
-  background: #dbeafe;
-  color: #1e40af;
-}
-
-.activity-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.activity-text {
-  font-size: 14px;
-  color: var(--navy-blue);
-  font-weight: 500;
-}
-
-.activity-time {
-  font-size: 12px;
-  color: var(--steel-grey);
-}
+.info-label { color: var(--color-text-muted); }
+.info-value { color: var(--color-bg); font-weight: 600; }
+.stat-value-small { color: var(--color-primary); }
 
 

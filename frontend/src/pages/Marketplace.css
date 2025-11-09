@@ -1,18 +1,40 @@
-/* ----------------- Page Setup ----------------- */
+:root {
+  --navy-blue: #0f172a;
+  --steel-grey: #94a3b8;
+  --white: #ffffff;
+  --border: #cbd5e1;
+  --glacier-blue: #4a9eff;
+  --success: #22c55e;
+  --light-bg: #1e293b;
+  --primary: #4a9eff;
+}
+
 .marketplace-page {
   min-height: 100vh;
-  background: #17335f; /* soft light background */
-  font-family: 'Inter', sans-serif;
-  color: var(--navy-blue);
+  background: var(--light-bg);
+  padding: 40px 24px;
+  color: #f9f9f9;
 }
 
 .marketplace-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 40px 24px;
 }
 
-/* ----------------- Controls ----------------- */
+.page-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #f9f9f9;
+}
+
+.page-subtitle {
+  font-size: 16px;
+  color: #cbd5e1;
+  margin-bottom: 32px;
+}
+
+/* Controls */
 .marketplace-controls {
   display: flex;
   flex-wrap: wrap;
@@ -20,58 +42,43 @@
   margin-bottom: 32px;
 }
 
-.search-input {
-  flex: 1;
-  padding: 12px 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
+.search-input,
+.filter-select {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
   font-size: 14px;
-  font-family: var(--font-main);
-  background: #fff;
-}
-
-.search-input:focus {
-  outline: none;
-  border-color: var(--glacier-blue);
-  box-shadow: 0 0 0 2px rgba(74, 158, 255, 0.2);
+  color: var(--navy-blue);
+  flex: 1 1 200px;
 }
 
 .filter-select {
-  padding: 12px 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  font-size: 14px;
-  font-family: var(--font-main);
-  background: #fff;
-  cursor: pointer;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  max-width: 200px;
 }
 
-.filter-select:focus {
-  outline: none;
-  border-color: var(--glacier-blue);
-  box-shadow: 0 0 0 2px rgba(74, 158, 255, 0.2);
-}
-
-/* ----------------- Agents Grid ----------------- */
+/* Agents Grid */
 .agents-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
 }
 
-/* ----------------- Agent Card ----------------- */
+/* Agent Card */
 .marketplace-agent-card {
-  background: #f0f4f8; /* soft bluish-gray, not pure white */
-  border-radius: 14px;
-  padding: 24px;
-  border: 1px solid #d9e2ec;
+  background: var(--white);
+  color: var(--navy-blue);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid var(--border);
   transition: all 0.2s ease;
 }
 
 .marketplace-agent-card:hover {
-  box-shadow: 0 8px 24px rgba(74, 158, 255, 0.15);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(74, 158, 255, 0.15);
 }
 
 .agent-card-header {
@@ -82,113 +89,142 @@
 }
 
 .agent-card-name {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
-  color: var(--navy-blue);
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
 .verified-badge {
-  font-size: 12px;
-  color: var(--success);
-  background: #d1fae5;
-  padding: 2px 8px;
-  border-radius: 8px;
+  background: var(--success);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 6px;
 }
 
 .agent-card-provider {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--steel-grey);
 }
 
 .agent-status-badge {
-  padding: 4px 12px;
+  padding: 4px 10px;
   border-radius: 12px;
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
-}
-
-/* ----------------- Description & Capabilities ----------------- */
-.agent-card-description {
-  font-size: 14px;
-  color: var(--steel-grey);
-  line-height: 1.6;
-  margin-bottom: 16px;
-}
-
-.agent-capabilities {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-.capability-tag {
-  padding: 6px 12px;
-  background: #f9fafb;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--glacier-blue);
-}
-
-/* ----------------- Metrics ----------------- */
-.agent-card-metrics {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-bottom: 20px;
-  padding: 16px;
-  background: #f9fafb;
-  border-radius: 10px;
-}
-
-.metric-item {
   text-align: center;
 }
 
-.metric-label {
-  display: block;
+.status-active {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.status-idle {
+  background: #fed7aa;
+  color: #92400e;
+}
+
+/* Description */
+.agent-card-description {
+  font-size: 13px;
+  color: var(--navy-blue);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+/* Capabilities */
+.agent-capabilities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.capability-tag {
+  background: var(--glacier-blue);
+  color: #fff;
   font-size: 11px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+/* Metrics */
+.agent-card-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.metric-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.metric-label {
+  font-size: 10px;
   color: var(--steel-grey);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 .metric-value-large {
-  display: block;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--navy-blue);
 }
 
-/* ----------------- Footer / Pricing ----------------- */
+/* Footer */
 .agent-card-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 16px;
-  border-top: 1px solid #e2e8f0;
+  margin-top: 8px;
 }
 
 .pricing {
   display: flex;
   flex-direction: column;
+  gap: 2px;
 }
 
 .price {
-  font-size: 24px;
   font-weight: 700;
-  color: var(--navy-blue);
+  font-size: 16px;
 }
 
 .price-unit {
-  font-size: 12px;
+  font-size: 10px;
   color: var(--steel-grey);
 }
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: #3577d0;
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--steel-grey);
+  margin-top: 40px;
+}
+
+
 

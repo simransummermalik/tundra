@@ -13,7 +13,6 @@ function Navbar({ session }) {
       <div className="navbar-left">
         <img src={logo} alt="Tundra Logo" className="navbar-logo" />
         <span className="navbar-title">TUNDRA</span>
-        <span className="navbar-subtitle">Where intelligence learns to self-govern</span>
       </div>
 
       <ul className="navbar-links">

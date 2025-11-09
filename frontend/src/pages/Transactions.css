@@ -1,33 +1,30 @@
+:root {
+  --navy-blue: #0f172a;
+  --steel-grey: #94a3b8;
+  --white: #ffffff;
+  --border: #cbd5e1;
+  --glacier-blue: #4a9eff;
+  --success: #22c55e;
+  --warning: #f97316;
+  --light-bg: #1e293b;
+}
+
 /* ----------------- Page Setup ----------------- */
 .transactions-page {
   position: relative;
   min-height: 100vh;
-  overflow: hidden;
-  background: radial-gradient(circle at top, #0d1b2a, #000);
+  background: var(--light-bg);
   font-family: 'Inter', sans-serif;
-  color: var(--navy-blue);
+  color: var(--white);
+  padding-bottom: 40px;
 }
 
-/* Binary Rain Canvas */
-.transactions-page canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.3;
-}
-
-/* Main content */
 .transactions-content {
   position: relative;
   z-index: 2;
   padding: 40px 24px;
 }
 
-/* Container */
 .transactions-container {
   max-width: 1400px;
   margin: 0 auto;
@@ -42,17 +39,18 @@
 }
 
 .stat-box {
-  background: #ffffff;
+  background: var(--white);
   border-radius: 12px;
   padding: 24px;
-  border: 1px solid rgba(0,0,0,0.1);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: var(--navy-blue);
 }
 
 .stat-box:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 28px rgba(0,0,0,0.25);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(74,158,255,0.1);
 }
 
 .stat-box h3 {
@@ -64,7 +62,7 @@
 }
 
 .stat-big {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 700;
   color: var(--navy-blue);
   margin: 0;
@@ -87,10 +85,10 @@
 
 .filter-btn {
   padding: 8px 16px;
-  background: #ffffff;
-  border: 1px solid rgba(0,0,0,0.15);
+  background: var(--white);
+  border: 1px solid var(--border);
   color: var(--navy-blue);
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -105,14 +103,14 @@
 .filter-btn.active {
   background: var(--glacier-blue);
   border-color: var(--glacier-blue);
-  color: #ffffff;
+  color: var(--white);
 }
 
 .export-btn {
   padding: 10px 20px;
-  background: var(--navy-blue);
+  background: var(--glacier-blue);
   border: none;
-  color: #ffffff;
+  color: var(--white);
   border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
@@ -121,28 +119,28 @@
 }
 
 .export-btn:hover {
-  background: #252f42;
+  background: #357ae8;
 }
 
 /* ----------------- Table ----------------- */
 .transactions-table-wrapper {
-  background: #ffffff;
+  background: var(--white);
   border-radius: 12px;
-  border: 1px solid rgba(0,0,0,0.1);
+  border: 1px solid var(--border);
   overflow-x: auto;
   margin-bottom: 40px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
 .transactions-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .transactions-table thead {
   background: var(--navy-blue);
-  color: #ffffff;
+  color: var(--white);
 }
 
 .transactions-table th {
@@ -152,17 +150,16 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  white-space: nowrap;
 }
 
 .transactions-table td {
   padding: 16px 12px;
-  border-bottom: 1px solid rgba(0,0,0,0.1);
+  border-bottom: 1px solid var(--border);
   color: var(--navy-blue);
 }
 
 .transactions-table tbody tr:hover {
-  background: rgba(0,0,0,0.05);
+  background: #f1f5f9;
 }
 
 .txn-id, .job-id {
@@ -173,10 +170,9 @@
 }
 
 .task-desc {
-  max-width: 300px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  max-width: 400px;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .total-charge {
@@ -228,16 +224,16 @@
 
 .view-receipt-btn:hover {
   background: var(--glacier-blue);
-  color: #ffffff;
+  color: var(--white);
 }
 
 /* ----------------- Compliance Section ----------------- */
 .compliance-section {
-  background: #ffffff;
+  background: var(--white);
   border-radius: 12px;
   padding: 32px;
-  border: 1px solid rgba(0,0,0,0.1);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
 .compliance-section h2 {
@@ -261,10 +257,12 @@
 .compliance-note {
   margin-top: 16px;
   padding: 16px;
-  background: #ffffff;
+  background: #f1f5f9;
   border-left: 4px solid var(--glacier-blue);
   border-radius: 8px;
   color: var(--steel-grey);
   font-size: 14px;
 }
+
+
 

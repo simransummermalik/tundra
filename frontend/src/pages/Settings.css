@@ -1,8 +1,19 @@
+:root {
+  --navy-blue: #0f172a;
+  --steel-grey: #94a3b8;
+  --white: #ffffff;
+  --border: #cbd5e1;
+  --glacier-blue: #4a9eff;
+  --success: #22c55e;
+  --warning: #f97316;
+  --light-bg: #1e293b;
+}
+
 .settings-page {
   min-height: 100vh;
-  background: #183755; 
+  background: var(--light-bg);
   font-family: 'Inter', sans-serif;
-  color: var(--navy-blue);
+  color: var(--white);
   padding-bottom: 40px;
 }
 
@@ -12,20 +23,27 @@
   padding: 40px 24px;
 }
 
+.settings-container h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+
 /* Sections */
 .settings-section {
-  background: #ffffff; /* keep content blocks bright white */
+  background: var(--white);
   border-radius: 14px;
   padding: 32px;
   margin-bottom: 32px;
-  border: 1px solid #e1e8f0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(74, 158, 255, 0.1);
+  color: var(--navy-blue);
 }
 
 .settings-section h2 {
   font-size: 20px;
   font-weight: 700;
-  color: var(--navy-blue);
   margin-bottom: 12px;
 }
 
@@ -35,15 +53,15 @@
   margin-bottom: 24px;
 }
 
-/* API Key */
+/* API Key Box */
 .api-key-box {
   display: flex;
   align-items: center;
   gap: 16px;
   padding: 16px;
-  background: #f9fafb;
+  background: #f1f5f9;
   border-radius: 8px;
-  border: 1px solid #d9e2ec;
+  border: 1px solid var(--border);
   margin-bottom: 12px;
 }
 
@@ -102,7 +120,6 @@
   display: block;
   font-size: 14px;
   font-weight: 600;
-  color: var(--navy-blue);
   margin-bottom: 8px;
 }
 
@@ -110,7 +127,7 @@
 .form-group select {
   width: 100%;
   padding: 12px 16px;
-  border: 1px solid #d9e2ec;
+  border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 14px;
   font-family: var(--font-main);
@@ -143,7 +160,7 @@
 
 .settings-actions .btn-primary {
   background: var(--glacier-blue);
-  color: #fff;
+  color: var(--white);
   border: none;
 }
 
@@ -154,10 +171,23 @@
 .settings-actions .btn-secondary {
   background: #f0f4f8;
   color: var(--navy-blue);
-  border: 1px solid #d9e2ec;
+  border: 1px solid var(--border);
 }
 
 .settings-actions .btn-secondary:hover {
   background: #e1e8f0;
 }
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
 

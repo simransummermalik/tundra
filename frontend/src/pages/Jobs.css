@@ -1,8 +1,6 @@
-/* 🌌 Modern AI Dashboard Styling - Jobs.css */
-
 :root {
   --bg-dark: #0b1120;
-  --bg-card: rgba(255, 255, 255, 0.05);
+  --bg-card: rgba(255, 255, 255, 0.03);
   --accent: #3b82f6;
   --accent-hover: #60a5fa;
   --success: #22c55e;
@@ -14,7 +12,6 @@
   --font-mono: "Fira Code", monospace;
 }
 
-/* Base layout */
 .jobs-page {
   min-height: 100vh;
   background: radial-gradient(circle at 50% 0%, #1e293b, #0f172a 60%, #020617 100%);
@@ -22,7 +19,6 @@
   font-family: var(--font-main);
   display: flex;
   justify-content: center;
-  align-items: flex-start;
   padding: 60px 20px;
 }
 
@@ -37,7 +33,6 @@
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
 }
 
-/* Titles */
 .page-title {
   font-size: 1.8rem;
   font-weight: 700;
@@ -51,13 +46,13 @@
   margin-bottom: 28px;
 }
 
-/* Tabs */
 .tabs {
   display: flex;
   gap: 10px;
   margin-bottom: 28px;
   border-bottom: 1px solid var(--border);
   padding-bottom: 6px;
+  flex-wrap: wrap;
 }
 
 .tab {
@@ -82,7 +77,6 @@
   color: var(--accent-hover);
 }
 
-/* New Job Section */
 .new-job-section h2 {
   font-size: 1.2rem;
   margin-bottom: 16px;
@@ -118,20 +112,19 @@
   border-radius: 8px;
   font-size: 14px;
   font-family: var(--font-main);
-  transition: border-color 0.2s ease;
-  color: var(--navy-blue); 
-  background: var(--white); 
+  transition: all 0.2s ease;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .form-group input::placeholder,
 .form-group textarea::placeholder {
-  color: var(--steel-grey);
+  color: var(--muted);
 }
 
-/* Dropdown options */
 .form-group select {
-  color: var(--navy-blue);
-  background: var(--white);
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .form-group input:focus,
@@ -139,7 +132,8 @@
 .form-group textarea:focus {
   outline: none;
   border-color: var(--accent);
-  background: rgba(185, 208, 246, 0.589);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  background: rgba(59, 130, 246, 0.05);
 }
 
 .form-hint {
@@ -154,7 +148,6 @@
   gap: 18px;
 }
 
-/* Button */
 .btn,
 .btn-primary {
   background: linear-gradient(90deg, var(--accent), #2563eb);
@@ -173,7 +166,22 @@
   background: linear-gradient(90deg, var(--accent-hover), #3b82f6);
 }
 
-/* Job Cards */
+.btn-small {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-small:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--accent);
+}
+
 .jobs-list {
   display: grid;
   gap: 20px;
@@ -182,7 +190,7 @@
 .job-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 22px;
   transition: all 0.2s ease;
 }
@@ -196,7 +204,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .job-id {
@@ -216,14 +224,17 @@
   background: rgba(59, 130, 246, 0.15);
   color: var(--accent);
 }
+
 .status-queued {
   background: rgba(234, 179, 8, 0.15);
   color: #facc15;
 }
+
 .status-completed {
   background: rgba(34, 197, 94, 0.15);
   color: var(--success);
 }
+
 .status-error {
   background: rgba(239, 68, 68, 0.15);
   color: var(--error);
@@ -252,23 +263,6 @@
   margin-top: 12px;
 }
 
-.btn-small {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border);
-  color: var(--text);
-  border-radius: 6px;
-  padding: 8px 14px;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-small:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: var(--accent);
-}
-
-/* Progress Bar */
 .progress-bar {
   height: 20px;
   background: rgba(255, 255, 255, 0.05);
@@ -295,7 +289,6 @@
   color: var(--text);
 }
 
-/* Empty State */
 .empty-state {
   text-align: center;
   color: var(--muted);
@@ -305,4 +298,7 @@
   border-radius: 12px;
   border: 1px dashed var(--border);
 }
+
+
+
 

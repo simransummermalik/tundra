@@ -6,8 +6,6 @@ import MonthlySpendIcon from "../images/coin-icon.svg";
 import JobsCompletedIcon from "../images/checkbox-icon.svg";
 import SuccessRateIcon from "../images/up-arrow-icon.svg";
 
-import BinaryRain from "../components/BinaryRain";
-
 function Dashboard() {
   // Placeholder data - replace with API calls later
   const [stats, setStats] = useState({
@@ -85,7 +83,6 @@ function Dashboard() {
 
   return (
     <div className="dashboard">
-      <BinaryRain />
       <div className="dashboard-container">
         <h1 className="page-title">Dashboard</h1>
         <p className="page-subtitle">Monitor your AI agent activity and performance</p>
