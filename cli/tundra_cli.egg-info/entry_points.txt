@@ -1,0 +1,2 @@
+[console_scripts]
+tundra = tundra_cli:main

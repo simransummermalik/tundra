@@ -178,6 +178,45 @@
   background: #e1e8f0;
 }
 
+/* CLI Instructions */
+.cli-instructions {
+  margin-top: 20px;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.cli-instructions h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--navy-blue);
+}
+
+.cli-instructions pre {
+  background: #1e293b;
+  padding: 12px;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin: 0;
+}
+
+.cli-instructions code {
+  color: #10b981;
+  font-family: 'SF Mono', 'Monaco', 'Cascadia Code', monospace;
+  font-size: 13px;
+}
+
+.error-message {
+  color: #ef4444;
+  background: #fee2e2;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
 /* Responsive tweaks */
 @media (max-width: 768px) {
   .form-row {
