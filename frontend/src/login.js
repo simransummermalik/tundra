@@ -59,7 +59,7 @@ const Login = () => {
         <div className="login-header">
           <img src={logo} alt="TUNDRA" className="login-logo" />
           <h1>TUNDRA</h1>
-          <p className="subtitle">Where intelligence learns to self-govern.</p>
+          <p className="subtitle">Transactional Unified Network for Distributed Recursive Agents</p>
         </div>
 
         <div className="toggle-row">

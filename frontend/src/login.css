@@ -9,11 +9,15 @@
   --muted: #94a3b8;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background: radial-gradient(circle at top, #1f2937 0%, #0f172a 45%, #020617 100%);
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .login-page {
@@ -27,11 +31,10 @@ body {
 .login-card {
   width: 100%;
   max-width: 480px;
-  background: var(--card);
+  background: #000000;
   border: 1px solid var(--border);
   border-radius: 1.25rem;
   padding: 3rem 2.5rem 2rem;
-  backdrop-filter: blur(12px);
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
   transform: scale(1.05);
 }
@@ -50,14 +53,19 @@ body {
 
 .login-header h1 {
   color: var(--text);
-  font-size: 1.4rem;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   margin: 0;
 }
 
 .subtitle {
   color: var(--muted);
-  font-size: 0.7rem;
-  margin-top: 0.35rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.4;
+  margin-top: 0.5rem;
+  letter-spacing: 0.01em;
 }
 
 .login-form {
@@ -68,19 +76,23 @@ body {
 
 .login-form label {
   color: var(--text);
-  font-size: 0.72rem;
+  font-size: 0.875rem;
+  font-weight: 500;
   letter-spacing: 0.01em;
+  margin-bottom: 0.25rem;
 }
 
 .login-form input {
   background: rgba(2, 6, 23, 0.25);
   border: 1px solid rgba(137, 207, 240, 0.25);
   border-radius: 0.6rem;
-  padding: 0.7rem 0.8rem;
+  padding: 0.75rem 1rem;
   color: var(--text);
-  font-size: 0.9rem;
+  font-size: 0.9375rem;
+  font-weight: 400;
   outline: none;
   transition: border 0.15s ease;
+  font-family: 'Inter', sans-serif;
 }
 
 .login-form input:focus {
@@ -88,16 +100,18 @@ body {
 }
 
 .login-button {
-  margin-top: 0.5rem;
+  margin-top: 0.75rem;
   background: linear-gradient(135deg, #89cff0 0%, #5da7c4 100%);
   border: none;
   border-radius: 0.7rem;
-  padding: 0.75rem 0.8rem;
+  padding: 0.875rem 1rem;
   color: #020617;
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.1s ease;
-  font-size: 0.9rem;
+  font-size: 0.9375rem;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.01em;
 }
 
 .login-button:active {
@@ -108,7 +122,8 @@ body {
   text-align: center;
   margin-top: 1.2rem;
   color: var(--muted);
-  font-size: 0.65rem;
+  font-size: 0.8125rem;
+  font-weight: 400;
 }
 .error-message {
   color: #ef4444;
@@ -134,11 +149,14 @@ body {
   background: rgba(2, 6, 23, 0.35);
   border: 1px solid transparent;
   border-radius: 0.5rem;
-  padding: 0.4rem 0;
+  padding: 0.625rem 0;
   color: #e2e8f0;
-  font-size: 0.7rem;
+  font-size: 0.875rem;
+  font-weight: 500;
   cursor: pointer;
   transition: 0.1s ease;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.01em;
 }
 
 .toggle-btn.active {

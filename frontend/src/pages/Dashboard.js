@@ -5,18 +5,16 @@ import ActiveAgentsIcon from "../images/robot-icon.svg";
 import MonthlySpendIcon from "../images/coin-icon.svg";
 import JobsCompletedIcon from "../images/checkbox-icon.svg";
 import SuccessRateIcon from "../images/up-arrow-icon.svg";
-import TrustScoreIcon from "../images/trust-icon.svg";
 
 import BinaryRain from "../components/BinaryRain";
 
 function Dashboard() {
   // Placeholder data - replace with API calls later
   const [stats, setStats] = useState({
-    activeAgents: { running: 2, idle: 3, disabled: 1 },
+    activeJobs: { running: 2, queued: 3, failed: 1 },
     monthlySpend: 1247.50,
     jobsCompleted: 342,
     avgSuccessRate: 87,
-    trustScore: 92,
   });
 
   const [agents, setAgents] = useState([
@@ -95,11 +93,11 @@ function Dashboard() {
         {/* Summary Cards */}
         <div className="stats-grid">
           <div className="stat-card">
-            <div className="stat-icon"><img src={ActiveAgentsIcon} alt="Active Agents" /></div>
+            <div className="stat-icon"><img src={ActiveAgentsIcon} alt="Active Jobs" /></div>
             <div className="stat-content">
-              <h3>Active Agents</h3>
+              <h3>Active Jobs</h3>
               <div className="stat-value">
-                {stats.activeAgents.running} running / {stats.activeAgents.idle} idle / {stats.activeAgents.disabled} disabled
+                {stats.activeJobs.running} running / {stats.activeJobs.queued} queued / {stats.activeJobs.failed} failed
               </div>
             </div>
           </div>
@@ -128,15 +126,6 @@ function Dashboard() {
               <h3>Avg. Success Rate</h3>
               <div className="stat-value">{stats.avgSuccessRate}%</div>
               <div className="stat-trend success">+3% improvement</div>
-            </div>
-          </div>
-
-          <div className="stat-card">
-            <div className="stat-icon"><img src={TrustScoreIcon} alt="Trust Score" /></div>
-            <div className="stat-content">
-              <h3>Trust Score</h3>
-              <div className="stat-value">{stats.trustScore}/100</div>
-              <div className="stat-trend success">Excellent</div>
             </div>
           </div>
         </div>
