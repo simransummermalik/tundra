@@ -174,44 +174,132 @@ class SummarizerExecutor(AgentExecutor):
 
 class SentimentExecutor(AgentExecutor):
 
-    def analyze_sentiment(self, text: str):
-        positive_keywords = ["gain", "profit", "growth", "success", "increase", "up", "bullish", "surge"]
-        negative_keywords = ["loss", "decline", "fall", "drop", "crash", "down", "bearish", "plunge"]
+    def __init__(self, name: str):
+        super().__init__(name)
 
-        text_lower = text.lower()
-        positive_count = sum(1 for word in positive_keywords if word in text_lower)
-        negative_count = sum(1 for word in negative_keywords if word in text_lower)
+        self.llm_client = AzureOpenAI(
+            api_key=os.getenv("AZURE_OPENAI_API_KEY"),
+            azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
+            api_version="2024-05-01-preview"
+        )
 
-        if positive_count > negative_count:
-            sentiment = "positive"
-            score = min(1.0, positive_count / (positive_count + negative_count + 1))
-        elif negative_count > positive_count:
-            sentiment = "negative"
-            score = min(1.0, negative_count / (positive_count + negative_count + 1))
-        else:
-            sentiment = "neutral"
-            score = 0.5
-
-        return {
-            "sentiment": sentiment,
-            "confidence_score": round(score, 2),
-            "positive_indicators": positive_count,
-            "negative_indicators": negative_count
-        }
-
-    def execute(self, request: RequestContext, queue: EventQueue):
+    async def execute(self, request: RequestContext, queue: EventQueue):
         queue.push(Event(type="message", message=f"{self.name} received sentiment analysis request"))
 
-        text = request.payload.get("text", "")
+        payload = request.payload or {}
+        text = payload.get("text") or (request.goal or "")
 
-        if not text:
-            result = {"error": "No text provided for sentiment analysis"}
-        else:
-            sentiment_result = self.analyze_sentiment(text)
-            result = {
-                **sentiment_result,
-                "analyzed_at": datetime.now(timezone.utc).isoformat()
-            }
+        symbol = payload.get("symbol")
+        goal_lower = (request.goal or "").lower()
+        if not symbol:
+            if "tesla" in goal_lower:
+                symbol = "TSLA"
+            elif "apple" in goal_lower:
+                symbol = "AAPL"
+            elif "google" in goal_lower or "alphabet" in goal_lower:
+                symbol = "GOOGL"
+            elif "amazon" in goal_lower:
+                symbol = "AMZN"
+            elif "microsoft" in goal_lower:
+                symbol = "MSFT"
+            elif "nvidia" in goal_lower:
+                symbol = "NVDA"
+
+        if not symbol:
+            queue.push(Event(type="status_update", message="Detecting ticker symbol from question"))
+            sysp = (
+                "You extract US stock ticker symbols. Return JSON with one field: "
+                "{'symbol': '<TICKER>'} using the primary US exchange ticker. If uncertain, return {'symbol': null}."
+            )
+            resp = self.llm_client.chat.completions.create(
+                model=os.getenv("AZURE_DEPLOYMENT_NAME"),
+                messages=[
+                    {"role": "system", "content": sysp},
+                    {"role": "user", "content": request.goal or text}
+                ],
+                temperature=0,
+                response_format={"type": "json_object"}
+            )
+            detected = json.loads(resp.choices[0].message.content)
+            if detected.get("symbol"):
+                symbol = detected.get("symbol").upper()
+                queue.push(Event(type="status_update", message=f"Detected symbol: {symbol}"))
+            else:
+                queue.push(Event(type="status_update", message="No symbol detected; analyzing without live market data"))
+
+        scraped = None
+        url = payload.get("url")
+        if not url and symbol:
+            url = f"https://finance.yahoo.com/quote/{symbol}"
+
+        if url:
+            queue.push(Event(type="delegation", message="Delegated to WebScraperAgent", metadata={"url": url, "symbol": symbol}))
+            print(f"[{self.name}] delegating to WebScraperAgent url={url} symbol={symbol}")
+            ws = WebScraperExecutor(name="WebScraperAgent")
+            ws_req = RequestContext(task_type="web_scrape", payload={"url": url}, goal=f"Collect current market data for {symbol or url}")
+            scraped = await ws.execute(ws_req, queue)
+            queue.push(Event(type="status_update", message="Received market data from WebScraperAgent"))
+
+        analysis_input = {
+            "user_question": text,
+            "symbol": symbol,
+            "scrape_result": scraped
+        }
+        data_summary = json.dumps(analysis_input, indent=2)
+
+        system_prompt = """You are an expert financial analyst specializing in stock sentiment analysis.
+
+Analyze the user's question and any provided market data to determine:
+1. Overall sentiment (strongly_positive, positive, neutral, negative, strongly_negative)
+2. Confidence score (0.0 to 1.0)
+3. Investment recommendation (buy/sell/hold with reasoning)
+4. What additional data would improve the analysis
+
+Return a JSON object with this structure:
+{
+  "sentiment": "positive|negative|neutral|strongly_positive|strongly_negative",
+  "confidence_score": 0.85,
+  "recommendation": "Buy/Sell/Hold with detailed reasoning",
+  "reasoning": "Detailed analysis",
+  "key_factors": ["factor 1", "factor 2"],
+  "needs_additional_data": true/false,
+  "requested_data": ["specific data needed"],
+  "risk_level": "low|medium|high",
+  "time_horizon": "short-term|medium-term|long-term"
+}"""
+
+        user_prompt = f"""Input for analysis:
+
+{data_summary}
+"""
+
+        response = self.llm_client.chat.completions.create(
+            model=os.getenv("AZURE_DEPLOYMENT_NAME"),
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt}
+            ],
+            temperature=0.2,
+            max_tokens=1200,
+            response_format={"type": "json_object"}
+        )
+
+        ai_result = json.loads(response.choices[0].message.content)
+
+        result = {
+            "sentiment": ai_result.get("sentiment", "neutral"),
+            "confidence_score": ai_result.get("confidence_score", 0.5),
+            "recommendation": ai_result.get("recommendation", "No recommendation"),
+            "reasoning": ai_result.get("reasoning", ""),
+            "key_factors": ai_result.get("key_factors", []),
+            "needs_additional_data": ai_result.get("needs_additional_data", True),
+            "requested_data": ai_result.get("requested_data", []),
+            "risk_level": ai_result.get("risk_level", "unknown"),
+            "time_horizon": ai_result.get("time_horizon", "unknown"),
+            "symbol": symbol,
+            "scrape_used": bool(scraped),
+            "analyzed_at": datetime.now(timezone.utc).isoformat()
+        }
 
         queue.push(Event(type="result", message="Sentiment analysis completed", metadata=result))
         request.mark_completed()
