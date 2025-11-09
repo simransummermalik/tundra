@@ -9,63 +9,24 @@ function Jobs() {
     preferredAgent: "auto",
   });
 
-  // Placeholder jobs data
   const pendingJobs = [
-    {
-      id: "JOB-9819",
-      task: "Validate CSV data compliance",
-      agent: "ValidatorPro",
-      budget: 0.12,
-      status: "processing",
-      progress: 45,
-    },
-    {
-      id: "JOB-9818",
-      task: "Analyze code repository for vulnerabilities",
-      agent: "CodeReview-AI",
-      budget: 0.22,
-      status: "queued",
-      progress: 0,
-    },
+    { id: "JOB-9819", task: "Validate CSV data compliance", agent: "ValidatorPro", budget: 0.12, status: "processing", progress: 45 },
+    { id: "JOB-9818", task: "Analyze code repository for vulnerabilities", agent: "CodeReview-AI", budget: 0.22, status: "queued", progress: 0 },
   ];
 
   const completedJobs = [
-    {
-      id: "JOB-9821",
-      task: "Scrape product data from e-commerce site",
-      agent: "DataScraper-AI",
-      cost: 0.15,
-      time: "2.1s",
-      rating: null,
-      output: "Successfully scraped 1,245 products",
-    },
-    {
-      id: "JOB-9820",
-      task: "Summarize research paper (15 pages)",
-      agent: "SummarizeGPT",
-      cost: 0.08,
-      time: "1.9s",
-      rating: 5,
-      output: "Generated 500-word summary",
-    },
+    { id: "JOB-9821", task: "Scrape product data from e-commerce site", agent: "DataScraper-AI", cost: 0.15, time: "2.1s", rating: null, output: "Successfully scraped 1,245 products" },
+    { id: "JOB-9820", task: "Summarize research paper (15 pages)", agent: "SummarizeGPT", cost: 0.08, time: "1.9s", rating: 5, output: "Generated 500-word summary" },
   ];
 
   const disputedJobs = [
-    {
-      id: "JOB-9750",
-      task: "Extract structured data from PDFs",
-      agent: "DataExtractor-Pro",
-      cost: 0.18,
-      reason: "Incomplete output - missing 30% of data",
-      status: "Under Review",
-    },
+    { id: "JOB-9750", task: "Extract structured data from PDFs", agent: "DataExtractor-Pro", cost: 0.18, reason: "Incomplete output - missing 30% of data", status: "Under Review" },
   ];
 
   const handleNewJobSubmit = (e) => {
     e.preventDefault();
     console.log("New job:", newJobForm);
-    // TODO: Submit to API
-    alert("Job submitted! (This will connect to backend later)");
+    alert("Job submitted! (Mock)");
     setNewJobForm({ task: "", budget: "", preferredAgent: "auto" });
   };
 
@@ -75,37 +36,23 @@ function Jobs() {
         <h1 className="page-title">Job Management</h1>
         <p className="page-subtitle">Create, track, and manage your AI agent jobs</p>
 
-        {/* Tabs */}
         <div className="tabs">
-          <button
-            className={`tab ${activeTab === "new" ? "active" : ""}`}
-            onClick={() => setActiveTab("new")}
-          >
-            New Job
-          </button>
-          <button
-            className={`tab ${activeTab === "pending" ? "active" : ""}`}
-            onClick={() => setActiveTab("pending")}
-          >
-            Pending ({pendingJobs.length})
-          </button>
-          <button
-            className={`tab ${activeTab === "completed" ? "active" : ""}`}
-            onClick={() => setActiveTab("completed")}
-          >
-            Completed ({completedJobs.length})
-          </button>
-          <button
-            className={`tab ${activeTab === "disputed" ? "active" : ""}`}
-            onClick={() => setActiveTab("disputed")}
-          >
-            Disputed ({disputedJobs.length})
-          </button>
+          {["new", "pending", "completed", "disputed"].map((tab) => (
+            <button
+              key={tab}
+              className={`tab ${activeTab === tab ? "active" : ""}`}
+              onClick={() => setActiveTab(tab)}
+            >
+              {tab.charAt(0).toUpperCase() + tab.slice(1)}{" "}
+              {(tab === "pending" && `(${pendingJobs.length})`) ||
+                (tab === "completed" && `(${completedJobs.length})`) ||
+                (tab === "disputed" && `(${disputedJobs.length})`) ||
+                ""}
+            </button>
+          ))}
         </div>
 
-        {/* Tab Content */}
         <div className="tab-content">
-          {/* NEW JOB TAB */}
           {activeTab === "new" && (
             <div className="new-job-section">
               <h2>Create a New Job</h2>
@@ -115,11 +62,15 @@ function Jobs() {
                   <textarea
                     placeholder="Describe what you need done (e.g., 'Scrape all product listings from https://example.com')"
                     value={newJobForm.task}
-                    onChange={(e) => setNewJobForm({ ...newJobForm, task: e.target.value })}
+                    onChange={(e) =>
+                      setNewJobForm({ ...newJobForm, task: e.target.value })
+                    }
                     rows={5}
                     required
                   />
-                  <span className="form-hint">Use natural language - our routing AI will understand</span>
+                  <span className="form-hint">
+                    Use natural language - our routing AI will understand
+                  </span>
                 </div>
 
                 <div className="form-row">
@@ -131,7 +82,9 @@ function Jobs() {
                       min="0.03"
                       placeholder="0.15"
                       value={newJobForm.budget}
-                      onChange={(e) => setNewJobForm({ ...newJobForm, budget: e.target.value })}
+                      onChange={(e) =>
+                        setNewJobForm({ ...newJobForm, budget: e.target.value })
+                      }
                       required
                     />
                     <span className="form-hint">Minimum $0.03</span>
@@ -141,7 +94,12 @@ function Jobs() {
                     <label>Preferred Agent</label>
                     <select
                       value={newJobForm.preferredAgent}
-                      onChange={(e) => setNewJobForm({ ...newJobForm, preferredAgent: e.target.value })}
+                      onChange={(e) =>
+                        setNewJobForm({
+                          ...newJobForm,
+                          preferredAgent: e.target.value,
+                        })
+                      }
                     >
                       <option value="auto">Auto-select (Recommended)</option>
                       <option value="DataScraper-AI">DataScraper-AI</option>
@@ -159,7 +117,6 @@ function Jobs() {
             </div>
           )}
 
-          {/* PENDING TAB */}
           {activeTab === "pending" && (
             <div className="pending-section">
               <h2>Pending Jobs</h2>
@@ -177,12 +134,19 @@ function Jobs() {
                       </div>
                       <h3>{job.task}</h3>
                       <div className="job-meta">
-                        <span>Agent: <strong>{job.agent}</strong></span>
-                        <span>Budget: <strong>${job.budget}</strong></span>
+                        <span>
+                          Agent: <strong>{job.agent}</strong>
+                        </span>
+                        <span>
+                          Budget: <strong>${job.budget}</strong>
+                        </span>
                       </div>
                       {job.progress > 0 && (
                         <div className="progress-bar">
-                          <div className="progress-fill" style={{ width: `${job.progress}%` }}></div>
+                          <div
+                            className="progress-fill"
+                            style={{ width: `${job.progress}%` }}
+                          ></div>
                           <span className="progress-text">{job.progress}%</span>
                         </div>
                       )}
@@ -193,7 +157,6 @@ function Jobs() {
             </div>
           )}
 
-          {/* COMPLETED TAB */}
           {activeTab === "completed" && (
             <div className="completed-section">
               <h2>Completed Jobs</h2>
@@ -201,21 +164,27 @@ function Jobs() {
                 <div key={job.id} className="job-card completed">
                   <div className="job-card-header">
                     <span className="job-id">{job.id}</span>
-                    <span className="status-badge status-completed">Completed</span>
+                    <span className="status-badge status-completed">
+                      Completed
+                    </span>
                   </div>
                   <h3>{job.task}</h3>
                   <div className="job-meta">
-                    <span>Agent: <strong>{job.agent}</strong></span>
-                    <span>Cost: <strong>${job.cost}</strong></span>
-                    <span>Time: <strong>{job.time}</strong></span>
+                    <span>
+                      Agent: <strong>{job.agent}</strong>
+                    </span>
+                    <span>
+                      Cost: <strong>${job.cost}</strong>
+                    </span>
+                    <span>
+                      Time: <strong>{job.time}</strong>
+                    </span>
                   </div>
                   <div className="job-output">
                     <strong>Output:</strong> {job.output}
                   </div>
                   <div className="job-actions">
-                    {!job.rating && (
-                      <button className="btn-small">Rate Job</button>
-                    )}
+                    {!job.rating && <button className="btn-small">Rate Job</button>}
                     <button className="btn-small">View Receipt</button>
                   </div>
                 </div>
@@ -223,7 +192,6 @@ function Jobs() {
             </div>
           )}
 
-          {/* DISPUTED TAB */}
           {activeTab === "disputed" && (
             <div className="disputed-section">
               <h2>Disputed Jobs</h2>
@@ -238,10 +206,14 @@ function Jobs() {
                     </div>
                     <h3>{job.task}</h3>
                     <div className="job-meta">
-                      <span>Agent: <strong>{job.agent}</strong></span>
-                      <span>Cost: <strong>${job.cost}</strong></span>
+                      <span>
+                        Agent: <strong>{job.agent}</strong>
+                      </span>
+                      <span>
+                        Cost: <strong>${job.cost}</strong>
+                      </span>
                     </div>
-                    <div className="dispute-reason">
+                    <div className="job-output">
                       <strong>Reason:</strong> {job.reason}
                     </div>
                     <div className="job-actions">
@@ -260,3 +232,4 @@ function Jobs() {
 }
 
 export default Jobs;
+
