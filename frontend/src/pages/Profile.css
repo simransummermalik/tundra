@@ -1,0 +1,28 @@
+/* need to add further styling for sections and different information fields*/
+
+.profile-page {
+  padding: 2rem;
+  min-height: 100vh;
+  background-color: #0a0a23;
+  color: #fff;
+}
+
+.profile-page h1 {
+  color: #00bfff;
+  margin-bottom: 2rem;
+}
+
+.profile-section {
+  background-color: #111136;
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 0 10px rgba(0, 191, 255, 0.2);
+}
+
+.profile-section h2 {
+  color: #00bfff;
+  margin-bottom: 0.5rem;
+}
+
+

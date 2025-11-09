@@ -125,8 +125,11 @@ app.add_middleware(
 @app.get("/")
 async def root():
     return {"message": "TUNDRA Requester Agent running"}
+async def root():
+    return {"message": "TUNDRA Requester Agent running"}
 
 @app.get("/health")
+async def health_check():
 async def health_check():
     return {"status": "ok"}
 
