@@ -1,92 +1,93 @@
+:root {
+  --navy-blue: #0f172a;
+  --glacier-blue: #4a9eff;
+  --white: #ffffff;
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  padding: 0 var(--spacing-xl);
-  height: 64px;
-  border-bottom: 1px solid var(--border);
+  background: var(--navy-blue);
+  color: white;
+  padding: 0.8rem 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   position: sticky;
   top: 0;
   z-index: 100;
-  backdrop-filter: blur(8px);
 }
 
 .navbar-left {
   display: flex;
   align-items: center;
-  gap: var(--spacing-md);
+  gap: 10px;
 }
 
 .navbar-logo {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   object-fit: contain;
 }
 
 .navbar-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-primary);
-  letter-spacing: -0.01em;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.5px;
 }
 
 .navbar-subtitle {
-  display: none;
+  font-size: 0.75rem;
+  color: var(--glacier-blue);
+  font-weight: 400;
+  opacity: 0.85;
 }
 
 /* Navbar links */
 .navbar-links {
   display: flex;
-  gap: var(--spacing-xs);
+  gap: clamp(1rem, 2vw, 2.5rem);
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
 .navbar-links a {
-  color: var(--text-secondary);
+  color: var(--white);
   text-decoration: none;
   font-weight: 500;
-  font-size: 14px;
-  padding: 0.5rem 0.875rem;
-  border-radius: var(--radius-sm);
-  transition: all 0.15s ease;
+  transition: color 0.2s ease;
 }
 
-.navbar-links a:hover {
-  color: var(--text-primary);
-  background: var(--bg-secondary);
+.navbar-links a:hover,
+.navbar-links a.active {
+  color: var(--glacier-blue);
 }
 
 /* Right-side user section */
 .navbar-right {
   display: flex;
   align-items: center;
-  gap: var(--spacing-md);
+  gap: 1rem;
 }
 
 .user-email {
-  font-size: 13px;
-  color: var(--text-secondary);
-  font-weight: 400;
+  font-size: 0.9rem;
+  color: var(--glacier-blue);
 }
 
 .btn-logout {
-  background: var(--bg-tertiary);
-  color: var(--text-primary);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 0.5rem 1rem;
+  background: var(--glacier-blue);
+  color: var(--navy-blue);
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
   cursor: pointer;
-  font-weight: 500;
-  font-size: 13px;
-  transition: all 0.15s ease;
+  font-weight: 600;
 }
 
 .btn-logout:hover {
-  background: var(--border);
+  background: white;
 }
 
 /* Responsive layout */
@@ -108,6 +109,7 @@
     margin-top: 0.5rem;
   }
 }
+
 
 
 
