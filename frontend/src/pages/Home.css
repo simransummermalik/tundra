@@ -1,0 +1,181 @@
+/* src/Home.css */
+
+.home-page {
+  padding: 2rem;
+  background-color: #141448;
+  min-height: 100vh;
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Hero Section */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 5rem;
+}
+
+.hero img.login-logo {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 1rem;
+}
+
+.hero-title {
+  font-size: 3rem;
+  color: #55a2bb;
+  font-weight: 700;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  margin-top: 1rem;
+  color: #a0d1e8;
+}
+
+.hero-buttons {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  background-color: #00bfff;
+  color: #0b0b4b;
+  font-weight: bold;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn:hover {
+  background-color: #0099cc;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: #ffaa00;
+  color: #141448;
+}
+
+.btn-secondary:hover {
+  background-color: #e68a00;
+  transform: translateY(-2px);
+}
+
+/* Section Titles */
+section h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #55a2bb;
+  text-align: center;
+}
+
+/* About & Mission Sections */
+.about, .mission, .structure, .contact {
+  max-width: 900px;
+  margin: 4rem auto;
+  padding: 0 1rem;
+  line-height: 1.7;
+  color: #e0e0e0;
+}
+
+.about p, .mission p, .structure p, .contact p {
+  margin-bottom: 1.5rem;
+}
+
+/* Values Section */
+.values {
+  max-width: 1100px;
+  margin: 4rem auto;
+  padding: 0 1rem;
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.value-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.value-card h3 {
+  color: #00bfff;
+  margin-bottom: 0.5rem;
+}
+
+.value-card p {
+  color: #cbd5e1;
+}
+
+.value-card:hover {
+  transform: translateY(-5px);
+  background: rgba(0, 191, 255, 0.1);
+}
+
+/* Structure Section */
+.structure ul {
+  list-style-type: disc;
+  margin-left: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.structure li {
+  margin-bottom: 0.8rem;
+  color: #cbd5e1;
+}
+
+/* Contact Section */
+.contact {
+  text-align: center;
+}
+
+.contact-info p {
+  margin: 0.3rem 0;
+}
+
+/* Footer */
+.footer {
+  margin-top: 5rem;
+  padding: 2rem;
+  text-align: center;
+  background-color: #0f0f2a;
+  color: #888;
+  font-size: 0.9rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .values-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

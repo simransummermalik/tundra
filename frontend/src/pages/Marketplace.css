@@ -1,0 +1,194 @@
+/* ----------------- Page Setup ----------------- */
+.marketplace-page {
+  min-height: 100vh;
+  background: #17335f; /* soft light background */
+  font-family: 'Inter', sans-serif;
+  color: var(--navy-blue);
+}
+
+.marketplace-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+/* ----------------- Controls ----------------- */
+.marketplace-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 12px 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: var(--font-main);
+  background: #fff;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--glacier-blue);
+  box-shadow: 0 0 0 2px rgba(74, 158, 255, 0.2);
+}
+
+.filter-select {
+  padding: 12px 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: var(--font-main);
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: var(--glacier-blue);
+  box-shadow: 0 0 0 2px rgba(74, 158, 255, 0.2);
+}
+
+/* ----------------- Agents Grid ----------------- */
+.agents-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 24px;
+}
+
+/* ----------------- Agent Card ----------------- */
+.marketplace-agent-card {
+  background: #f0f4f8; /* soft bluish-gray, not pure white */
+  border-radius: 14px;
+  padding: 24px;
+  border: 1px solid #d9e2ec;
+  transition: all 0.2s ease;
+}
+
+.marketplace-agent-card:hover {
+  box-shadow: 0 8px 24px rgba(74, 158, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.agent-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.agent-card-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--navy-blue);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.verified-badge {
+  font-size: 12px;
+  color: var(--success);
+  background: #d1fae5;
+  padding: 2px 8px;
+  border-radius: 8px;
+}
+
+.agent-card-provider {
+  font-size: 13px;
+  color: var(--steel-grey);
+}
+
+.agent-status-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* ----------------- Description & Capabilities ----------------- */
+.agent-card-description {
+  font-size: 14px;
+  color: var(--steel-grey);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.agent-capabilities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.capability-tag {
+  padding: 6px 12px;
+  background: #f9fafb;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--glacier-blue);
+}
+
+/* ----------------- Metrics ----------------- */
+.agent-card-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: #f9fafb;
+  border-radius: 10px;
+}
+
+.metric-item {
+  text-align: center;
+}
+
+.metric-label {
+  display: block;
+  font-size: 11px;
+  color: var(--steel-grey);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.metric-value-large {
+  display: block;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--navy-blue);
+}
+
+/* ----------------- Footer / Pricing ----------------- */
+.agent-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.pricing {
+  display: flex;
+  flex-direction: column;
+}
+
+.price {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--navy-blue);
+}
+
+.price-unit {
+  font-size: 12px;
+  color: var(--steel-grey);
+}
+
