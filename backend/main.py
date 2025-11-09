@@ -92,7 +92,6 @@ async def root():
 
 @app.get("/health")
 async def health_check():
-async def health_check():
     return {"status": "ok"}
 
 @app.post("/submit_job")
