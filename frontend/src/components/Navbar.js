@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import "./Navbar.css";
+import logo from "../assets/logo.png";
 
 function Navbar({ session }) {
   const handleLogout = async () => {
@@ -9,29 +10,27 @@ function Navbar({ session }) {
 
   return (
     <nav className="navbar">
-      <div className="nav-container">
-        <Link to="/" className="logo">
-          <span className="logo-text">TUNDRA</span>
-          <span className="logo-subtitle">Intelligence Self-Governed</span>
-        </Link>
+      <div className="navbar-left">
+        <img src={logo} alt="Tundra Logo" className="navbar-logo" />
+        <span className="navbar-title">TUNDRA</span>
+        <span className="navbar-subtitle">Where intelligence learns to self-govern</span>
+      </div>
 
-        <ul className="nav-links">
-          <li><Link to="/dashboard">Dashboard</Link></li>
-          <li><Link to="/agents">Agents</Link></li>
-          <li><Link to="/jobs">Jobs</Link></li>
-          <li><Link to="/transactions">Transactions</Link></li>
-          <li><Link to="/settings">Settings</Link></li>
-        </ul>
+      <ul className="navbar-links">
+        <li><Link to="/dashboard">Dashboard</Link></li>
+        <li><Link to="/agents">Agents</Link></li>
+        <li><Link to="/jobs">Jobs</Link></li>
+        <li><Link to="/transactions">Transactions</Link></li>
+        <li><Link to="/settings">Settings</Link></li>
+      </ul>
 
-        <div className="nav-user">
-          <span className="user-email">{session?.user?.email}</span>
-          <button onClick={handleLogout} className="btn-logout">
-            Logout
-          </button>
-        </div>
+      <div className="navbar-right">
+        <span className="user-email">{session?.user?.email}</span>
+        <button onClick={handleLogout} className="btn-logout">Logout</button>
       </div>
     </nav>
   );
 }
 
 export default Navbar;
+

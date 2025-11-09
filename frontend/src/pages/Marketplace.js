@@ -165,8 +165,8 @@ function Marketplace() {
                   <span className="metric-value-large">{agent.metrics.jobsCompleted.toLocaleString()}</span>
                 </div>
                 <div className="metric-item">
+                  <span className="metric-value-large">★ {agent.metrics.rating}</span>
                   <span className="metric-label">Rating</span>
-                  <span className="metric-value-large">⭐ {agent.metrics.rating}</span>
                 </div>
               </div>
 

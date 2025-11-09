@@ -57,7 +57,7 @@ function Jobs() {
       agent: "DataExtractor-Pro",
       cost: 0.18,
       reason: "Incomplete output - missing 30% of data",
-      status: "under_review",
+      status: "Under Review",
     },
   ];
 

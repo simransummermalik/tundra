@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react";
 import "./Dashboard.css";
 
+import ActiveAgentsIcon from "../images/robot-icon.svg";
+import MonthlySpendIcon from "../images/coin-icon.svg";
+import JobsCompletedIcon from "../images/checkbox-icon.svg";
+import SuccessRateIcon from "../images/up-arrow-icon.svg";
+import TrustScoreIcon from "../images/trust-icon.svg";
+
+import BinaryRain from "../components/BinaryRain";
+
 function Dashboard() {
   // Placeholder data - replace with API calls later
   const [stats, setStats] = useState({
@@ -79,6 +87,7 @@ function Dashboard() {
 
   return (
     <div className="dashboard">
+      <BinaryRain />
       <div className="dashboard-container">
         <h1 className="page-title">Dashboard</h1>
         <p className="page-subtitle">Monitor your AI agent activity and performance</p>
@@ -86,7 +95,7 @@ function Dashboard() {
         {/* Summary Cards */}
         <div className="stats-grid">
           <div className="stat-card">
-            <div className="stat-icon">🤖</div>
+            <div className="stat-icon"><img src={ActiveAgentsIcon} alt="Active Agents" /></div>
             <div className="stat-content">
               <h3>Active Agents</h3>
               <div className="stat-value">
@@ -96,7 +105,7 @@ function Dashboard() {
           </div>
 
           <div className="stat-card">
-            <div className="stat-icon">💰</div>
+            <div className="stat-icon"><img src={MonthlySpendIcon} alt="Monthly Spend" /></div>
             <div className="stat-content">
               <h3>Monthly Spend</h3>
               <div className="stat-value">${stats.monthlySpend.toFixed(2)}</div>
@@ -105,7 +114,7 @@ function Dashboard() {
           </div>
 
           <div className="stat-card">
-            <div className="stat-icon">⚙️</div>
+            <div className="stat-icon"><img src={JobsCompletedIcon} alt="Jobs Completed" /></div>
             <div className="stat-content">
               <h3>Jobs Completed</h3>
               <div className="stat-value">{stats.jobsCompleted}</div>
@@ -114,7 +123,7 @@ function Dashboard() {
           </div>
 
           <div className="stat-card">
-            <div className="stat-icon">📈</div>
+            <div className="stat-icon"><img src={SuccessRateIcon} alt="Avg. Success Rate" /></div>
             <div className="stat-content">
               <h3>Avg. Success Rate</h3>
               <div className="stat-value">{stats.avgSuccessRate}%</div>
@@ -123,7 +132,7 @@ function Dashboard() {
           </div>
 
           <div className="stat-card">
-            <div className="stat-icon">🛡️</div>
+            <div className="stat-icon"><img src={TrustScoreIcon} alt="Trust Score" /></div>
             <div className="stat-content">
               <h3>Trust Score</h3>
               <div className="stat-value">{stats.trustScore}/100</div>
