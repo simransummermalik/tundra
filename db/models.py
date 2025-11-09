@@ -44,3 +44,27 @@ class Job(BaseModel):
 
     class Config:
         allow_population_by_field_name = True
+
+
+# job response modeling (for API responses)
+
+class JobResponse(BaseModel):
+    """
+    Response model when a job is created or updated
+    Similar to what you showed:
+    {
+      "job_id": "A1",
+      "agent": "WebScraperAgent",
+      "event_type": "status_update",
+      "message": "Extracting pricing information...",
+      "timestamp": "2025-11-08T20:14:22Z"
+    }
+    """
+    job_id: str
+    agent: Optional[str] = None  # Agent name
+    agent_id: Optional[str] = None  # Agent ID like "A1"
+    event_type: str  # e.g. "status_update", "job_created", "job_completed"
+    message: str
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    status: Optional[str] = None  # current job status
+    payload: Optional[dict] = None  # additional data
